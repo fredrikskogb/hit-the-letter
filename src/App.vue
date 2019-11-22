@@ -18,7 +18,7 @@
 	})
 </script>
 
-<style>
+<style lang="less">
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -70,5 +70,11 @@ table {
 
 /* General styling */
 
+@import url('./styles/main.less');
+
+a {
+	.text-styling;
+	color: @link-color;
+}
 
 </style>

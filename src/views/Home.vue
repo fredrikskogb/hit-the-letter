@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>This is the home page.</h1>
+    <h1 class="">This is the home page.</h1>
   </div>
 </template>
 
@@ -14,6 +14,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+
+  @import url('../styles/main.less');
+
+  h1 {
+    color: @text-color;
+     .text-styling;
+  }
 
 </style>>
