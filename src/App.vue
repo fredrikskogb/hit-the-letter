@@ -5,8 +5,18 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>
+	<BackgroundImage></BackgroundImage>
   </div>
 </template>
+
+<script lang="ts">
+	import Vue from 'vue'
+	import BackgroundImage from '@/components/layout/BackgroundImage.vue';
+
+	export default Vue.extend({
+		components: { BackgroundImage }
+	})
+</script>
 
 <style>
 
@@ -57,5 +67,8 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+/* General styling */
+
 
 </style>
