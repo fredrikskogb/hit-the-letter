@@ -1,6 +1,11 @@
 <template>
 	<div class="login-register-wrapper">
-		Log in / Register
+		<div>
+			<p>Log in / Register</p>
+		</div>
+		<div>
+			<p>Play without logging in</p>
+		</div>
 	</div>
 </template>
 
@@ -22,8 +27,12 @@ export default Vue.extend({
 		.card;
 		color: black;
 		border-radius: @card-border-radius;
-		cursor: pointer;
 		user-select: none;
+		text-align: center;
+		div {
+			margin: 5px;
+			cursor: pointer;
+		}
 	}
 
 </style>
