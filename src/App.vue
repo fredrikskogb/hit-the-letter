@@ -10,15 +10,32 @@
 </template>
 
 <script lang="ts">
+
 	import Vue from 'vue'
 	import BackgroundImage from '@/components/layout/BackgroundImage.vue';
 
 	export default Vue.extend({
-		components: { BackgroundImage }
+		components: {
+			BackgroundImage 
+		}
 	})
+
 </script>
 
 <style lang="less">
+
+/* General styling */
+
+@import url('./styles/main.less');
+
+html {
+	color: @text-color;
+}
+
+a {
+	.text-styling;
+	color: @link-color;
+}
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -66,15 +83,6 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
-}
-
-/* General styling */
-
-@import url('./styles/main.less');
-
-a {
-	.text-styling;
-	color: @link-color;
 }
 
 </style>
