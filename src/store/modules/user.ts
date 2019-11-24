@@ -1,4 +1,6 @@
-import { IUser } from '@/types/index'
+import { IUser } from '@/types/index';
+import { user } from '@/mocks/user.ts';
+
 
 // Used for sending values to distant components without having to use props and emits
 

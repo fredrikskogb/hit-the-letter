@@ -4,7 +4,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view :loggedInStatus="loggedIn"/>
+	<!-- Send logged in status to all routered components through props -->
+    <router-view :loggedIn="getLoggedInStatus"/>
 	<BackgroundImage></BackgroundImage>
   </div>
 </template>
@@ -20,12 +21,13 @@
 	export default Vue.extend({
 		data() {
 			return {
-				loggedIn: true
+				
 			}
 		},
 		components: {
 			BackgroundImage 
 		},
+		computed: mapGetters(['getLoggedInStatus']),
 	})
 
 </script>

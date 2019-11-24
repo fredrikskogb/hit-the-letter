@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1 class="">This is the home page.</h1>
-    <p class="logged-in-name" v-if="loggedInStatus">Logged in as {{ user.email }}</p>
+    <p class="logged-in-name" v-if="loggedIn">Logged in as {{ user.email }}</p>
     <LoginRegister></LoginRegister>
   </div>
 </template>
@@ -19,17 +19,18 @@ export default Vue.extend ({
 
   data() {
     return {
+      // mock printing a user
       user: user as IUser,
     }
   },
 
-  props: ['loggedInStatus'],
+  props: ['loggedIn'],
 
   components: {
     LoginRegister
   },
   created(): void {
-   console.log(this.loggedInStatus);
+   console.log(this.loggedIn);
   }
 
 })
