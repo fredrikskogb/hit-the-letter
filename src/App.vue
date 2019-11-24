@@ -4,7 +4,7 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <router-view :loggedInStatus="loggedIn"/>
 	<BackgroundImage></BackgroundImage>
   </div>
 </template>
@@ -13,11 +13,19 @@
 
 	import Vue from 'vue'
 	import BackgroundImage from '@/components/layout/BackgroundImage.vue';
+	import { mapGetters } from 'vuex';
 
+	/* To let TypeScript properly infer types inside Vue component options,
+		you need to define components with Vue.component or Vue.extend. */
 	export default Vue.extend({
+		data() {
+			return {
+				loggedIn: true
+			}
+		},
 		components: {
 			BackgroundImage 
-		}
+		},
 	})
 
 </script>
