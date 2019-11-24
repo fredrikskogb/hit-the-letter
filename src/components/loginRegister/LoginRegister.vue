@@ -40,7 +40,7 @@ export default Vue.extend({
 	
 	// Lifecycle hook, component has been created
   created(): void {
-  	console.log('loginRegister component created');
+		console.log('loginRegister component created');
 	}
 	
 })
