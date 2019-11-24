@@ -29,8 +29,9 @@ export default Vue.extend ({
   components: {
     LoginRegister
   },
+  
   created(): void {
-   console.log(this.loggedIn);
+   console.log('Logged in: '+ this.loggedIn);
   }
 
 })
