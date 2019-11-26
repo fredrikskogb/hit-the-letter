@@ -13,7 +13,36 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-        
+
+	// Import here
+
+	name: 'loginRegister' as string,
+
+	// What data the component contains, print in html using interpolation {{ test }}
+  data() {
+    return {
+      // test: 'test'
+    }
+  },
+
+	// Props sent down to this component
+  props: [],
+
+	// What components are children to this one.
+  components: {
+    
+	},
+	
+	// Declare methods/functions of this component inside this block
+	methods: {
+
+	},
+	
+	// Lifecycle hook, component has been created
+  created(): void {
+		console.log('loginRegister component created');
+	}
+	
 })
 
 </script>
