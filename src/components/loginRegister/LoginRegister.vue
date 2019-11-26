@@ -1,41 +1,45 @@
 <template>
 	<div class="login-register-wrapper">
-		<div>
-			<p>Log in / Register</p>
+		<div class="login-options">
+			<div>
+				<p @click="showFields">Log in / Register</p>
+			</div>
+			<div>
+				<p>Play without logging in</p>
+			</div>
 		</div>
-		<div>
-			<p>Play without logging in</p>
-		</div>
+		<LoginFields v-if="openFields"/>
 	</div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
+import LoginFields from "@/components/loginFields/LoginFields.vue";
 
 export default Vue.extend({
-
-	// Import here
 
 	name: 'loginRegister' as string,
 
 	// What data the component contains, print in html using interpolation {{ test }}
   data() {
     return {
-      // test: 'test'
+			openFields: false
     }
   },
 
 	// Props sent down to this component
-  props: [],
+  props: ["loggedIn"],
 
 	// What components are children to this one.
   components: {
-    
+    LoginFields
 	},
 	
 	// Declare methods/functions of this component inside this block
 	methods: {
-
+		showFields() {
+			this.openFields = !this.openFields;
+		}
 	},
 	
 	// Lifecycle hook, component has been created
