@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+			<div class="nav-container">
+				<router-link to="/">Home</router-link> |
+				<router-link to="/about">About</router-link>
+			</div>
     </div>
 	<!-- Send logged in status to all routered components through props -->
     <router-view :loggedIn="getLoggedInStatus"/>
@@ -45,6 +47,14 @@ html {
 a {
 	.text-styling;
 	color: @link-color;
+}
+
+#nav {
+	display: flex;
+	justify-content: center;
+	.nav-container {
+		width: 100px
+	}
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
