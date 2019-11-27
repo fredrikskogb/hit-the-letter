@@ -114,8 +114,10 @@
 		top: 120%;
 		left: -110%;
 		transform: translateY(-120%);
-		background-color: rgb(223, 198, 160);
+		background: #870000;  /* fallback for old browsers */
 		z-index: -4;
+		background: linear-gradient(to right, rgb(223, 198, 160), #835b42, #7493b6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+		box-shadow: 0px 2px 19px 0px rgba(232,228,211,1);
 	}
 
 	
