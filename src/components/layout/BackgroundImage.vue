@@ -59,6 +59,7 @@
 
 	.background-image {
 		animation: 3s linear infinite alternate;
+		box-shadow: 0px 12px 13px -17px rgba(107,58,26,1);
 	}
 
 	.background-image-container {
