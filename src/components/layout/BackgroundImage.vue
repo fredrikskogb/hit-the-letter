@@ -102,9 +102,9 @@
 
 	}
 
-	@keyframes l1 { 100% { -webkit-transform: translate3d(-4px,2px,0); transform: translate3d(-4px,2px,0) } }
-	@keyframes l2 { 100% { -webkit-transform: translate3d(-7px,1px,0); transform: translate3d(-7px,1px,0) } }
-	@keyframes l3 { 100% { -webkit-transform: translate3d(-10px,2px,0); transform: translate3d(-10px,2px,0) } }
+	@keyframes l1 { 100% { -webkit-transform: translate3d(-14px,2px,0); transform: translate3d(-14px,2px,0) } }
+	@keyframes l2 { 100% { -webkit-transform: translate3d(-5px,1px,0); transform: translate3d(-5px,1px,0) } }
+	@keyframes l3 { 100% { -webkit-transform: translate3d(-3px,2px,0); transform: translate3d(-3px,2px,0) } }
 
 	.background-floor {
 		width: 320vw;
