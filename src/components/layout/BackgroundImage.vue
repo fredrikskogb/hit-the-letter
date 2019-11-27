@@ -106,11 +106,13 @@
 	@keyframes l3 { 100% { -webkit-transform: translate3d(-10px,2px,0); transform: translate3d(-10px,2px,0) } }
 
 	.background-floor {
-		width: 100vw;
+		width: 320vw;
 		height: 70%;
+		border-radius: 50%;
 		overflow: hidden;
 		position: fixed;
 		top: 120%;
+		left: -110%;
 		transform: translateY(-120%);
 		background-color: rgb(223, 198, 160);
 		z-index: -4;
