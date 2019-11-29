@@ -1,11 +1,5 @@
 <template>
   <div id="app">
-    <div id="nav">
-			<div class="nav-container">
-				<router-link to="/">Home</router-link> |
-				<router-link to="/about">About</router-link>
-			</div>
-    </div>
 	<!-- Send logged in status to all routered components through props -->
     <router-view :loggedIn="getLoggedInStatus"/>
 	<BackgroundImage></BackgroundImage>
@@ -42,6 +36,7 @@
 
 html {
 	color: @text-color;
+	font-family: 'Tomorrow', sans-serif;
 }
 
 a {
@@ -49,13 +44,7 @@ a {
 	color: @link-color;
 }
 
-#nav {
-	display: flex;
-	justify-content: center;
-	.nav-container {
-		width: 100px
-	}
-}
+
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -78,7 +67,6 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
