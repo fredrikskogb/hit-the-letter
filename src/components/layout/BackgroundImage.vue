@@ -46,6 +46,8 @@
 		width: 400px;
 		height: 400px;
 		z-index: -9;
+		animation: 420s linear infinite;
+		animation-name: shake; 
 	}
 
 	.alien-planet-image {
@@ -105,6 +107,8 @@
 	@keyframes l1 { 100% { -webkit-transform: translate3d(-14px,2px,0); transform: translate3d(-14px,2px,0) } }
 	@keyframes l2 { 100% { -webkit-transform: translate3d(-5px,1px,0); transform: translate3d(-5px,1px,0) } }
 	@keyframes l3 { 100% { -webkit-transform: translate3d(-3px,2px,0); transform: translate3d(-3px,2px,0) } }
+
+	@keyframes shake { 100% { -webkit-transform: rotate(360deg); transform: rotate(360deg) } }
 
 	.background-floor {
 		width: 320vw;
