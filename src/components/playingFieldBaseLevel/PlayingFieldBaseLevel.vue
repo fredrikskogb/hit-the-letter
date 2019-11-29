@@ -1,7 +1,14 @@
 <template>
     <div class="letters-container">
-      <div class="letter-container" v-for="letter in letters" :key="letter">
-        <PlayingFieldLetter :letter="letter"></PlayingFieldLetter>
+
+      <div class="letter-container" 
+        v-for="letter in letterData" 
+        :key="Object.keys(letter)[0]" 
+        :class="{active: isActive(letter)}"
+        >
+
+        <PlayingFieldLetter :letter="Object.keys(letter)[0]">
+        </PlayingFieldLetter>
       </div>
     </div>
 </template>
@@ -12,13 +19,73 @@
 
   export default Vue.extend({
 
-    name: "playingFieldBaseLevel",
+    name: "playingFieldBaseLevel" as string,
+
+    data() {
+
+      return {
+        interval: 0,
+        level: 1,
+        letterData: []
+      }
+
+    },
 
     components: {
       PlayingFieldLetter
     },
 
-    props: ["letters"]
+    props: ["letters"],
+
+    methods: {
+
+      makeFalsy(): void {
+
+        // Make letters to object to get access to boolean for Vue DOM manipulation
+        this.letterData = this.letters.map((letter: string) => {
+        
+          return {
+            [letter]: false
+          }
+
+        })
+      },
+
+      makeActive(): void {
+        // reset values
+        this.makeFalsy();
+        // Takes a random letter.
+        let letter: any = this.letterData[Math.floor(Math.random() * this.letterData.length)];
+        // Make letter active
+        let key = Object.keys(letter)[0];
+        letter[key] = true;
+      
+      },
+
+      isActive(letter: any): boolean {
+        // Check if false/true to give "active" as class
+        if(letter[Object.keys(letter)[0]] === true){
+          return true;
+        } else {
+          return false;
+        }
+
+      }
+
+    },
+
+    created(): any {
+      // Make letters to object to get access to boolean for Vue DOM manipulation
+      this.makeFalsy();
+
+    },
+
+    // Mounted lifecycle hook because we need to wait for DOM render
+    mounted(): void {
+      // Increase pace by 110ms on making letter active based on level
+      this.interval = setInterval(() => { this.makeActive(); }, 2000 - (this.level * 110));
+
+    }
     
   })
 </script>
@@ -37,21 +104,27 @@
     width: 100vw;
     user-select: initial;
   }
+  
   .letter-container {
-    background-color: @letter-background-color;
+    background-color: rgba(115, 83, 136, 0.65);
     border-radius: @card-border-radius;
     flex-basis: 15%;
     height: 50px;
-    margin: 20px;
-    box-shadow: 0px 0px 2px 0px rgba(255,255,255,1);
+    margin: 12px;
+    box-shadow: 0px 0px 2px 0px rgb(163, 170, 255);
+    border: 1px solid rgb(231, 60, 60);
 
-    color: rgb(199, 195, 195);
+    color: rgb(228, 226, 226);
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -2px black;
     font-size: 1.2rem;
 
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .active {
+    background-color: green;
   }
 }
 </style>
