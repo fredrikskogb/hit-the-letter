@@ -10,12 +10,14 @@
         <PlayingFieldLetter :letter="Object.keys(letter)[0]">
         </PlayingFieldLetter>
       </div>
+      <Countdown :startingTime="60"/>
     </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
   import PlayingFieldLetter from "@/components/playingFieldLetter/PlayingFieldLetter.vue";
+  import Countdown from '@/components/countdown/Countdown.vue';
 
   export default Vue.extend({
 
@@ -32,7 +34,8 @@
     },
 
     components: {
-      PlayingFieldLetter
+      PlayingFieldLetter,
+      Countdown
     },
 
     props: ["letters"],
