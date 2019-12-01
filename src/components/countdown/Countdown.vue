@@ -1,7 +1,7 @@
 <template>
-  <p>
+  <span>
     {{timeLeft}}
-  </p>
+  </span>
 </template>
 
 <script lang="ts">
