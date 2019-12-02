@@ -1,20 +1,27 @@
 <template>
 	<div class="login-register-wrapper">
-		<div class="login-options">
-			<div>
-				<p @click="showFields">Log in / Register</p>
+		<div class="login-register-modal">
+			<div class="login-register-options" v-if="!openFields">
+				<p @click="toggleFields">
+					Log in / Register
+				</p>
+				<p @click="promptCompleted">
+					Play without logging in
+				</p>
 			</div>
-			<div>
-				<p>Play without logging in</p>
+			<div class="login-register-fields" v-if="openFields">
+				<input name="username" type="text" />
+				<input name="password" type="password" />
+				<button @click="verifyLogin">Log in</button>
+				<button @click="verifySignup">Sign up</button>
+				<button @click="toggleFields">Back</button>
 			</div>
 		</div>
-		<LoginFields v-if="openFields"/>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import LoginFields from "@/components/loginFields/LoginFields.vue";
 
 export default Vue.extend({
 
@@ -32,13 +39,22 @@ export default Vue.extend({
 
 	// What components are children to this one.
   components: {
-    LoginFields
+	
 	},
 	
 	// Declare methods/functions of this component inside this block
 	methods: {
-		showFields() {
+		toggleFields() {
 			this.openFields = !this.openFields;
+		},
+		verifyLogin() {
+			
+		},
+		verifySignup() {
+
+		},
+		promptCompleted() {
+
 		}
 	},
 	
@@ -62,9 +78,11 @@ export default Vue.extend({
 		border-radius: @card-border-radius;
 		user-select: none;
 		text-align: center;
-		div {
-			margin: 5px;
-			cursor: pointer;
+		.login-register-options {
+			p {
+				margin: 10px;
+				cursor: pointer;
+			}
 		}
 	}
 
