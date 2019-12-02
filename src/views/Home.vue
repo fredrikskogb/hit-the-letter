@@ -3,7 +3,8 @@
     <Nav></Nav>
     <h1 class="">This is the home page.</h1>
     <p class="logged-in-name" v-if="loggedIn">Logged in as {{ user.email }}</p>
-    <LoginRegister loggedIn="loggedIn" />
+    <LoginRegister v-if="!loggedIn" />
+    <CustomizationMenu v-if="loggedIn" />
   </div>
 </template>
 
@@ -12,6 +13,7 @@
 import Vue from 'vue'
 import LoginRegister from '@/components/loginRegister/LoginRegister.vue';
 import Nav from '@/components/layout/Nav.vue';
+import CustomizationMenu from '@/components/customizationMenu/CustomizationMenu.vue';
 import { IUser } from '@/types/index.ts';
 import { user } from '@/mocks/user.ts';
 
@@ -30,7 +32,8 @@ export default Vue.extend ({
 
   components: {
     LoginRegister,
-    Nav
+    Nav,
+    CustomizationMenu
   },
   
   created(): void {
