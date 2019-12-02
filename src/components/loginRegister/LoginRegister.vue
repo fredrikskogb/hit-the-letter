@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions } from 'vuex';
 
 export default Vue.extend({
 
@@ -42,6 +43,7 @@ export default Vue.extend({
 	
 	// Declare methods/functions of this component inside this block
 	methods: {
+		...mapActions(['setLoggedInStatus']),
 		toggleFields() {
 			this.openFields = !this.openFields;
 		},
@@ -56,7 +58,7 @@ export default Vue.extend({
 			this.promptCompleted();
 		},
 		promptCompleted() {
-
+			this.setLoggedInStatus(true);
 		}
 	},
 	

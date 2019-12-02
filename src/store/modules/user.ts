@@ -25,7 +25,9 @@ const getters = {
 };
 
 const actions = {
-    
+    setLoggedInStatus: (status: boolean) => {
+        state.loggedInStatus = status;
+    }
 };
 
 const mutations = {
