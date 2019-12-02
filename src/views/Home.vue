@@ -39,7 +39,6 @@ export default Vue.extend ({
   created(): void {
    console.log('Logged in: '+ this.loggedIn);
   }
-
 })
 
 </script>

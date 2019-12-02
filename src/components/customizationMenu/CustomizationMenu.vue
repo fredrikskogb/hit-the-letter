@@ -20,8 +20,5 @@
 
   .customization-menu-wrapper {
     .hv-centering;
-    button {
-      color: @linkColor;
-    }
   }
 </style>
