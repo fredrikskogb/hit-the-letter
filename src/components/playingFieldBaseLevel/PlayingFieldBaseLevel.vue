@@ -10,7 +10,7 @@
         <PlayingFieldLetter :letter="Object.keys(letter)[0]">
         </PlayingFieldLetter>
       </div>
-      <Countdown :startingTime="60"/>
+      <Countdown :startingTime="2" v-on:time-is-out="setHighScore"/>
     </div>
 </template>
 
@@ -18,6 +18,7 @@
   import Vue from 'vue'
   import PlayingFieldLetter from "@/components/playingFieldLetter/PlayingFieldLetter.vue";
   import Countdown from '@/components/countdown/Countdown.vue';
+  import {mapGetters} from 'vuex';
 
   export default Vue.extend({
 
@@ -28,6 +29,7 @@
       return {
         interval: 0,
         level: 1,
+        points: 0,
         letterData: []
       }
 
@@ -43,10 +45,9 @@
     methods: {
 
       makeFalsy(): void {
-
         // Make letters to object to get access to boolean for Vue DOM manipulation
         this.letterData = this.letters.map((letter: string) => {
-        
+
           return {
             [letter]: false
           }
@@ -73,9 +74,41 @@
           return false;
         }
 
+      },
+
+      setHighScore(): void {
+
+        console.log("Time is out.");
+
+        if(!this.user.hasOwnProperty('id')) {
+
+          console.log("Not logged in. Comparing highscore...");
+          let localStorageLevel = localStorage.getItem("level");
+          let localStoragePoints = localStorage.getItem("points");
+
+          if(localStorageLevel === null){
+            localStorageLevel = "0";
+          }
+
+          if(localStoragePoints === null){
+            localStoragePoints = "0";
+          }
+
+          if(parseInt(localStorageLevel) < this.level && parseInt(localStoragePoints) < this.points){
+            console.log("Setting new highscore...")
+            localStorage.setItem("level", this.level.toString());
+            localStorage.setItem("points", this.points.toString());
+          }else {
+            console.log("No new highscore.")
+          }
+
+        }
+
       }
 
     },
+
+    computed: mapGetters(['user']), 
 
     created(): any {
       // Make letters to object to get access to boolean for Vue DOM manipulation
