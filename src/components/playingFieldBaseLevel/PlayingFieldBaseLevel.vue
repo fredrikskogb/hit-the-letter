@@ -10,7 +10,11 @@
         <PlayingFieldLetter :letter="Object.keys(letter)[0]">
         </PlayingFieldLetter>
       </div>
-      <Countdown :startingTime="2" v-on:time-is-out="setHighScore"/>
+      <div class="information-container">
+        <p class="timer">Time left: <Countdown :startingTime="60" v-on:time-is-out="setHighScore"/></p>
+        <p>Points: {{points}}</p>
+        <p>Level: {{level}}</p>
+      </div>
       <PlayerShip/>
     </div>
 </template>
@@ -145,13 +149,13 @@
   }
   
   .letter-container {
-    background-color: rgba(115, 83, 136, 0.65);
+    background-color: rgba(83, 84, 136, 0.65);
     border-radius: @card-border-radius;
     flex-basis: 15%;
     height: 50px;
     margin: 12px;
     box-shadow: 0px 0px 2px 0px rgb(163, 170, 255);
-    border: 1px solid rgb(231, 60, 60);
+    border: 1px solid rgb(60, 197, 231);
 
     color: rgb(228, 226, 226);
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -2px black;
@@ -163,7 +167,17 @@
   }
 
   .active {
-    background-color: green;
+    background-color: rgba(66, 175, 66, 0.767);
+  }
+
+  .information-container {
+    position: absolute;
+    top: 10px;
+    display: flex;
+    width: 400px;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1.1em;
   }
 }
 
