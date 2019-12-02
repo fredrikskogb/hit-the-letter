@@ -1,21 +1,19 @@
 <template>
 	<div class="login-register-wrapper">
-		<div class="login-register-modal">
-			<div class="login-register-options" v-if="!openFields">
-				<p @click="toggleFields">
-					Log in / Register
-				</p>
-				<p @click="promptCompleted">
-					Play without logging in
-				</p>
-			</div>
-			<div class="login-register-fields" v-if="openFields">
-				<input name="username" type="text" />
-				<input name="password" type="password" />
-				<button @click="verifyLogin">Log in</button>
-				<button @click="verifySignup">Sign up</button>
-				<button @click="toggleFields">Back</button>
-			</div>
+		<div class="login-register-options" v-if="!openFields">
+			<p @click="toggleFields">
+				Log in / Register
+			</p>
+			<p @click="promptCompleted">
+				Play without logging in
+			</p>
+		</div>
+		<div class="login-register-fields" v-if="openFields">
+			<input name="username" type="text" />
+			<input name="password" type="password" />
+			<button @click="verifyLogin">Log in</button>
+			<button @click="verifySignup">Sign up</button>
+			<button @click="toggleFields">Back</button>
 		</div>
 	</div>
 </template>
@@ -35,7 +33,7 @@ export default Vue.extend({
   },
 
 	// Props sent down to this component
-  props: ["loggedIn"],
+  props: [],
 
 	// What components are children to this one.
   components: {
@@ -48,10 +46,14 @@ export default Vue.extend({
 			this.openFields = !this.openFields;
 		},
 		verifyLogin() {
-			
+			//lovely api service
+
+			this.promptCompleted();
 		},
 		verifySignup() {
+			//lovely api service
 
+			this.promptCompleted();
 		},
 		promptCompleted() {
 
