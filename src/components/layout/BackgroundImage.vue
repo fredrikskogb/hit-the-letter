@@ -37,6 +37,9 @@
 		overflow: hidden;
 		z-index: -10;
 		background-color: rgb(36, 36, 36);
+		background-image: url('../../assets/images/stars.png');
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
 	}
 
 	.moon-image {
@@ -57,6 +60,8 @@
 		width: 100px;
 		height: 100px;
 		z-index: -9;
+		border-radius: 50%;
+		box-shadow: 0px 0px 5px 0px rgba(212,167,144,1);
 	}
 
 	.background-image {
