@@ -11,6 +11,7 @@
         </PlayingFieldLetter>
       </div>
       <Countdown :startingTime="2" v-on:time-is-out="setHighScore"/>
+      <PlayerShip/>
     </div>
 </template>
 
@@ -18,6 +19,7 @@
   import Vue from 'vue'
   import PlayingFieldLetter from "@/components/playingFieldLetter/PlayingFieldLetter.vue";
   import Countdown from '@/components/countdown/Countdown.vue';
+  import PlayerShip from '@/components/playerShip/PlayerShip.vue';
   import {mapGetters} from 'vuex';
 
   export default Vue.extend({
@@ -37,7 +39,8 @@
 
     components: {
       PlayingFieldLetter,
-      Countdown
+      Countdown,
+      PlayerShip
     },
 
     props: ["letters"],
@@ -163,4 +166,5 @@
     background-color: green;
   }
 }
+
 </style>
