@@ -11,7 +11,7 @@
         </PlayingFieldLetter>
       </div>
       <div class="information-container">
-        <p class="timer">Time left: <Countdown :startingTime="60" v-on:time-is-out="setHighScore"/></p>
+        <p class="timer">Time left: <Countdown :startingTime="60" v-on:time-is-out="gameEnd"/></p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
@@ -24,7 +24,7 @@
   import PlayingFieldLetter from "@/components/playingFieldLetter/PlayingFieldLetter.vue";
   import Countdown from '@/components/countdown/Countdown.vue';
   import PlayerShip from '@/components/playerShip/PlayerShip.vue';
-  import {mapGetters} from 'vuex';
+  import {mapGetters, mapActions} from 'vuex';
 
   export default Vue.extend({
 
@@ -36,7 +36,9 @@
         interval: 0,
         level: 1,
         points: 0,
-        letterData: []
+        letterData: [],
+        nextLevel: false,
+        gameFailed: false
       }
 
     },
@@ -50,6 +52,8 @@
     props: ["letters"],
 
     methods: {
+
+      ...mapActions(["updateHighscore"]),
 
       makeFalsy(): void {
         // Make letters to object to get access to boolean for Vue DOM manipulation
@@ -75,47 +79,62 @@
 
       isActive(letter: any): boolean {
         // Check if false/true to give "active" as class
-        if(letter[Object.keys(letter)[0]] === true){
-          return true;
+        return letter[Object.keys(letter)[0]];
+      },
+
+      async setUserHighscore() {
+        /* Check highscore values from highscore vuex state and compare to this session.
+           Add user id from users vuex state. */
+        if(this.highscore.points < this.points && this.highscore.level < this.level) {
+          this.updateHighscore({userId: this.user.id, points: this.points, level: this.level});
         } else {
-          return false;
+          return;
         }
 
       },
 
-      setHighScore(): void {
+      setLocalStorageHighscore() {
+
+        console.log("Not logged in. Comparing highscore...");
+        let localStorageLevel = localStorage.getItem("level");
+        let localStoragePoints = localStorage.getItem("points");
+
+        if(localStorageLevel === null){
+          localStorageLevel = "0";
+        }
+
+        if(localStoragePoints === null){
+          localStoragePoints = "0";
+        }
+
+        if(parseInt(localStorageLevel) < this.level && parseInt(localStoragePoints) < this.points){
+          console.log("Setting new highscore...")
+          localStorage.setItem("level", this.level.toString());
+          localStorage.setItem("points", this.points.toString());
+        } else {
+          console.log("No new highscore.")
+        }
+
+      },
+
+      gameEnd(): void {
 
         console.log("Time is out.");
 
         if(!this.user.hasOwnProperty('id')) {
-
-          console.log("Not logged in. Comparing highscore...");
-          let localStorageLevel = localStorage.getItem("level");
-          let localStoragePoints = localStorage.getItem("points");
-
-          if(localStorageLevel === null){
-            localStorageLevel = "0";
-          }
-
-          if(localStoragePoints === null){
-            localStoragePoints = "0";
-          }
-
-          if(parseInt(localStorageLevel) < this.level && parseInt(localStoragePoints) < this.points){
-            console.log("Setting new highscore...")
-            localStorage.setItem("level", this.level.toString());
-            localStorage.setItem("points", this.points.toString());
-          }else {
-            console.log("No new highscore.")
-          }
-
+          this.setLocalStorageHighscore();
+        } else {
+          this.setUserHighscore();
         }
+
+        this.nextLevel = true;
+        this.level++;
 
       }
 
     },
 
-    computed: mapGetters(['user']), 
+    computed: mapGetters(['user', 'highscore']),
 
     created(): any {
       // Make letters to object to get access to boolean for Vue DOM manipulation
