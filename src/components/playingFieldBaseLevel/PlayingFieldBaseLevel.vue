@@ -1,11 +1,12 @@
 <template>
-    <div class="letters-container">
+  <div>
+
+    <div v-if="!nextLevel" class="letters-container">
 
       <div class="letter-container" 
         v-for="letter in letterData" 
         :key="Object.keys(letter)[0]" 
-        :class="{active: isActive(letter)}"
-        >
+        :class="{active: isActive(letter)}">
 
         <PlayingFieldLetter :letter="Object.keys(letter)[0]">
         </PlayingFieldLetter>
@@ -17,6 +18,12 @@
       </div>
       <PlayerShip/>
     </div>
+
+    <NextLevel v-if="nextLevel"
+      :gameFailed="gameFailed"
+      :points="points"
+      v-on:next-level="setNextLevel"/>
+  </div>
 </template>
 
 <script lang="ts">
@@ -24,6 +31,7 @@
   import PlayingFieldLetter from "@/components/playingFieldLetter/PlayingFieldLetter.vue";
   import Countdown from '@/components/countdown/Countdown.vue';
   import PlayerShip from '@/components/playerShip/PlayerShip.vue';
+  import NextLevel from "@/components/nextLevel/NextLevel.vue";
   import {mapGetters, mapActions} from 'vuex';
 
   export default Vue.extend({
@@ -46,7 +54,8 @@
     components: {
       PlayingFieldLetter,
       Countdown,
-      PlayerShip
+      PlayerShip,
+      NextLevel
     },
 
     props: ["letters"],
@@ -117,19 +126,26 @@
 
       },
 
-      gameEnd(): void {
+      // Set highscore and show NextLevel.vue
+      gameEnd(timeIsOut: boolean): void {
 
-        console.log("Time is out.");
+        console.log("Session ended.");
 
         if(!this.user.hasOwnProperty('id')) {
           this.setLocalStorageHighscore();
         } else {
           this.setUserHighscore();
         }
-
+        if(timeIsOut) this.gameFailed = true;
         this.nextLevel = true;
-        this.level++;
 
+      },
+
+      // Function run from NextLevel.vue
+      setNextLevel(latestPoints: any) {
+        this.nextLevel = false;
+        this.level++
+        this.points = latestPoints;
       }
 
     },

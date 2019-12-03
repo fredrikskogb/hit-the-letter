@@ -10,13 +10,13 @@
 
   export default Vue.extend({
     name: "nextLevel",
-    props: ["gameFailed"],
+    props: ["gameFailed", "points"],
     methods: {
       homeScreen() {
-
+        this.$router.push({ path: '/' })
       },
       nextLevel() {
-
+        this.$emit("next-level", this.points);
       }
     }
   })
