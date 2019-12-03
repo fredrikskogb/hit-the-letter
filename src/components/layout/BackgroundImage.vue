@@ -133,15 +133,16 @@
 		border-radius: 50%;
 		overflow: hidden;
 		position: fixed;
-		top: 120%;
-		left: -110%;
-		transform: translateY(-120%);
-		background: #870000;  /* fallback for old browsers */
+		top: 70%;
+		transform: translateY(-50%);
 		z-index: -4;
-		background: linear-gradient(to right, rgb(223, 198, 160), #835b42, #7493b6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-		box-shadow: 0px 4px 40px 0px rgb(197, 184, 173), inset 0px 24px 40px -13px rgba(53, 32, 19, 0.75);
+		left: 50%;
+		right: 50%;
+		transform: translate(-50%, -50%);
+		box-shadow: 0px 4px 100px 0px rgb(133, 118, 106), inset 0px 23px 89px 18px rgba(0,0,0,0.75);
 		background-image: url("../../assets/images/ground.jpg");
-		background-size: cover;
+		background-size: 100vw 70%;
+		background-position: center;
 	}
 
     
