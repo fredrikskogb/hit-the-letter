@@ -134,7 +134,7 @@
 		overflow: hidden;
 		position: fixed;
 		top: 70%;
-		transform: translateY(-50%);
+		transform: translateY(-70%);
 		z-index: -4;
 		left: 50%;
 		right: 50%;
