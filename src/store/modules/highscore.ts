@@ -2,7 +2,12 @@ import axios from 'axios';
 import CONFIG_URL from "../../../config-url";
 
 const state = {
-    userHighscore: {}
+    userHighscore: {
+        id: 9,
+        userId: 2,
+        points: 1,
+        level: 1
+    }
 };
 
 const getters = {
@@ -10,8 +15,8 @@ const getters = {
 };
 
 const actions = {
-    async fetchHighscore({commit} : {commit: any}) {
-        const response = await axios.get(`${CONFIG_URL}/highscore`);
+    async fetchHighscore({commit} : {commit: any}, userHighscore: any) {
+        const response = await axios.get(`${CONFIG_URL}/highscore/getHighscore.php`, userHighscore);
         commit('setHighscore', response.data);
     },
     async updateHighscore({commit} : {commit: any}, userHighscore: any){

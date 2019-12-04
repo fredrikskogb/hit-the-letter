@@ -12,7 +12,7 @@
         </PlayingFieldLetter>
       </div>
       <div class="information-container">
-        <p class="timer">Time left: <Countdown :startingTime="60" v-on:time-is-out="gameEnd"/></p>
+        <p class="timer">Time left: <Countdown :startingTime="2" v-on:time-is-out="gameEnd"/></p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
@@ -43,7 +43,7 @@
       return {
         interval: 0,
         level: 1,
-        points: 0,
+        points: 1,
         letterData: [],
         nextLevel: false,
         gameFailed: false
@@ -62,7 +62,7 @@
 
     methods: {
 
-      ...mapActions(["updateHighscore"]),
+      ...mapActions(["updateHighscore", "fetchHighscore"]),
 
       makeFalsy(): void {
         // Make letters to object to get access to boolean for Vue DOM manipulation
@@ -94,9 +94,11 @@
       async setUserHighscore() {
         /* Check highscore values from highscore vuex state and compare to this session.
            Add user id from users vuex state. */
-        if(this.highscore.points < this.points && this.highscore.level < this.level) {
+        if(this.singleHighscore.points < this.points && this.singleHighscore.level < this.level) {
           this.updateHighscore({userId: this.user.id, points: this.points, level: this.level});
+          console.log("Updating highscore");
         } else {
+          console.log("Not a new highscore");
           return;
         }
 
@@ -150,12 +152,12 @@
 
     },
 
-    computed: mapGetters(['user', 'highscore']),
+    computed: mapGetters(['user', 'singleHighscore']),
 
     created(): any {
       // Make letters to object to get access to boolean for Vue DOM manipulation
       this.makeFalsy();
-
+      this.fetchHighscore(this.user.id);
     },
 
     // Mounted lifecycle hook because we need to wait for DOM render
