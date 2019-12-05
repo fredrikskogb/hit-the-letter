@@ -2,9 +2,9 @@
   <div class="home">
     <Nav></Nav>
     <h1 class="">This is the home page.</h1>
-    <p class="logged-in-name" v-if="loggedIn">Logged in as {{ user.email }}</p>
-    <LoginRegister v-if="!loggedIn" />
-    <CustomizationMenu v-if="loggedIn" />
+    <p class="logged-in-name" v-if="user.id">Logged in as {{ user.id }}</p>
+    <LoginRegister v-if="!user.id" />
+    <CustomizationMenu v-if="user.id" />
   </div>
 </template>
 
@@ -15,7 +15,7 @@ import LoginRegister from '@/components/loginRegister/LoginRegister.vue';
 import Nav from '@/components/layout/Nav.vue';
 import CustomizationMenu from '@/components/customizationMenu/CustomizationMenu.vue';
 import { IUser } from '@/types/index.ts';
-import { user } from '@/mocks/user.ts';
+import { mapGetters } from 'vuex';
 
 export default Vue.extend ({
 
@@ -24,11 +24,10 @@ export default Vue.extend ({
   data() {
     return {
       // mock printing a user
-      user: user as IUser,
     }
-  },
+  }, 
 
-  props: ['loggedIn'],
+  computed: mapGetters(['user']),
 
   components: {
     LoginRegister,
@@ -37,7 +36,7 @@ export default Vue.extend ({
   },
   
   created(): void {
-   console.log('Logged in: '+ this.loggedIn);
+
   }
 })
 

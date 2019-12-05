@@ -1,6 +1,7 @@
 export interface IUser {
     id: number,
     email: String,
+    username: String,
     password: String
 }
 

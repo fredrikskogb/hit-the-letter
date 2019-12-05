@@ -1,5 +1,4 @@
 import { IUser } from '@/types/index';
-import { user } from '@/mocks/user.ts';
 import axios from 'axios';
 import CONFIG_URL from '../../../config-url';
 
