@@ -21,6 +21,9 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapActions } from 'vuex';
+import { RepositoryFactory } from '../../repository/RepositoryFactory';
+
+const UsersFactory = RepositoryFactory.get("users");
 
 export default Vue.extend({
 
@@ -48,14 +51,20 @@ export default Vue.extend({
 			this.openFields = !this.openFields;
 		},
 		verifyLogin() {
+
+		},
+		verifySignup() {
+			
+		},
+		async loginUser() {
 			//lovely api service
 
 			this.promptCompleted();
 		},
-		verifySignup() {
+		async signupUser() {
 			//lovely api service
 
-			this.promptCompleted();
+			this.loginUser();
 		},
 		promptCompleted() {
 			this.setLoggedInStatus(true);

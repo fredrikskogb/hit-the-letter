@@ -23,7 +23,7 @@
 		components: {
 			BackgroundImage 
 		},
-		computed: mapGetters(['getLoggedInStatus']),
+		computed: mapGetters(['loggedInStatus']),
 	})
 
 </script>

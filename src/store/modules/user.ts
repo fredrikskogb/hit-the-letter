@@ -17,7 +17,7 @@ const getters = {
 
     user: (state: { user: IUser; }) => state.user,
     allUsers: (state: { allUsers: IUser[]; }) => state.allUsers,
-    getLoggedInStatus: (state: { loggedInStatus: boolean; }) => state.loggedInStatus,
+    loggedInStatus: (state: { loggedInStatus: boolean; }) => state.loggedInStatus,
 
     highscore: (state: { highscore: {}; }) => state.highscore,
     allHighscores: (state: { allHighscores: []; }) => state.allHighscores,
@@ -27,6 +27,9 @@ const getters = {
 const actions = {
     setLoggedInStatus: (status: boolean) => {
         state.loggedInStatus = status;
+    },
+    setLoggedInUser: (user: IUser) => {
+
     }
 };
 
