@@ -1,27 +1,42 @@
 <template>
 	<div class="login-register-wrapper">
-		<div>
-			<p>Log in / Register</p>
+		<div class="login-register-options" v-if="!openFields">
+			<p @click="toggleFields">
+				Log in / Register
+			</p>
+			<p>
+				Play without logging in
+			</p>
 		</div>
-		<div>
-			<p>Play without logging in</p>
+		<div class="login-register-fields" v-if="openFields">
+			<input v-model="newUser.email" name="email" type="text" />
+			<input v-model="newUser.username" name="username" type="text" />
+			<input v-model="newUser.password" name="password" type="password" />
+			<button @click="verifyLogin">Log in</button>
+			<button @click="verifySignup">Sign up</button>
+			<button @click="toggleFields">Back</button>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
+import { mapGetters, mapActions } from 'vuex';
 
 export default Vue.extend({
-
-	// Import here
 
 	name: 'loginRegister' as string,
 
 	// What data the component contains, print in html using interpolation {{ test }}
   data() {
     return {
-      // test: 'test'
+			openFields: false,
+			newUser: {
+				email: "",
+				username: "",
+				password: ""
+			}
+			
     }
   },
 
@@ -30,12 +45,29 @@ export default Vue.extend({
 
 	// What components are children to this one.
   components: {
-    
+	
 	},
+
+	computed: mapGetters(['user']),
 	
 	// Declare methods/functions of this component inside this block
 	methods: {
-
+		...mapActions(['loginUser', 'registerUser']),
+		toggleFields() {
+			this.openFields = !this.openFields;
+		},
+		verifyLogin() {
+			// if (true) {
+				this.loginUser(this.newUser);
+			// } else {
+			// 	return;
+			// }
+		},
+		async verifySignup() {
+			await this.registerUser(this.newUser);
+			console.log(this.user);
+			console.log(this.newUser)
+		}
 	},
 	
 	// Lifecycle hook, component has been created
@@ -58,9 +90,11 @@ export default Vue.extend({
 		border-radius: @card-border-radius;
 		user-select: none;
 		text-align: center;
-		div {
-			margin: 5px;
-			cursor: pointer;
+		.login-register-options {
+			p {
+				margin: 10px;
+				cursor: pointer;
+			}
 		}
 	}
 
