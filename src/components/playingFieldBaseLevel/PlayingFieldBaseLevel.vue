@@ -12,7 +12,7 @@
         </PlayingFieldLetter>
       </div>
       <div class="information-container">
-        <p class="timer">Time left: <Countdown :startingTime="2" v-on:time-is-out="gameEnd"/></p>
+        <p class="timer">Time left: <Countdown :startingTime="60" v-on:time-is-out="gameEnd"/></p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>

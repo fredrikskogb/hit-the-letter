@@ -2,12 +2,7 @@ import axios from 'axios';
 import CONFIG_URL from "../../../config-url";
 
 const state = {
-    userHighscore: {
-        id: 9,
-        userId: 2,
-        points: 1,
-        level: 1
-    }
+    userHighscore: {}
 };
 
 const getters = {
@@ -15,8 +10,8 @@ const getters = {
 };
 
 const actions = {
-    async fetchHighscore({commit} : {commit: any}, userHighscore: any) {
-        const response = await axios.get(`${CONFIG_URL}/highscore/getHighscore.php`, userHighscore);
+    async fetchHighscore({commit} : {commit: any}, userId: any) {
+        const response = await axios.get(`${CONFIG_URL}/highscore/getHighscore.php${userId}`);
         commit('setHighscore', response.data);
     },
     async updateHighscore({commit} : {commit: any}, userHighscore: any){
@@ -30,7 +25,7 @@ const actions = {
 };
 
 const mutations = {
-    setHighscore: (state: { highscore: any; }, highscore: any) => (state.highscore = highscore),
+    setHighscore: (state: { userHighscore: any; }, userHighscore: any) => (state.userHighscore = userHighscore),
 };
 
 export default  {
