@@ -9,8 +9,9 @@
 			</p>
 		</div>
 		<div class="login-register-fields" v-if="openFields">
-			<input name="username" type="text" />
-			<input name="password" type="password" />
+			<input v-model="newUser.email" name="email" type="text" />
+			<input v-model="newUser.username" name="username" type="text" />
+			<input v-model="newUser.password" name="password" type="password" />
 			<button @click="verifyLogin">Log in</button>
 			<button @click="verifySignup">Sign up</button>
 			<button @click="toggleFields">Back</button>
@@ -20,10 +21,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapActions } from 'vuex';
-import { RepositoryFactory } from '../../repository/RepositoryFactory';
-
-const UsersFactory = RepositoryFactory.get("users");
+import { mapGetters, mapActions } from 'vuex';
 
 export default Vue.extend({
 
@@ -32,7 +30,13 @@ export default Vue.extend({
 	// What data the component contains, print in html using interpolation {{ test }}
   data() {
     return {
-			openFields: false
+			openFields: false,
+			newUser: {
+				email: "",
+				username: "",
+				password: ""
+			}
+			
     }
   },
 
@@ -43,31 +47,25 @@ export default Vue.extend({
   components: {
 	
 	},
+
+	computed: mapGetters(['user']),
 	
 	// Declare methods/functions of this component inside this block
 	methods: {
-		...mapActions(['setLoggedInStatus']),
+		...mapActions(['loginUser', 'registerUser']),
 		toggleFields() {
 			this.openFields = !this.openFields;
 		},
 		verifyLogin() {
-
+			// if (true) {
+				this.loginUser(this.newUser);
+			// } else {
+			// 	return;
+			// }
 		},
-		verifySignup() {
-			
-		},
-		async loginUser() {
-			//lovely api service
-
-			this.promptCompleted();
-		},
-		async signupUser() {
-			//lovely api service
-
-			this.loginUser();
-		},
-		promptCompleted() {
-			this.setLoggedInStatus(true);
+		async verifySignup() {
+			await this.registerUser(this.newUser);
+			console.log(this.user);
 		}
 	},
 	

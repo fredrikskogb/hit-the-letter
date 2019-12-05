@@ -1,5 +1,7 @@
 import { IUser } from '@/types/index';
 import { user } from '@/mocks/user.ts';
+import axios from 'axios';
+import CONFIG_URL from '../../../config-url';
 
 // Used for sending values to distant components without having to use props and emits
 const state = {
@@ -25,16 +27,19 @@ const getters = {
 };
 
 const actions = {
-    setLoggedInStatus: (status: boolean) => {
-        state.loggedInStatus = status;
+    async loginUser({commit} : {commit: any}, user: any) {
+        const response = await axios.get(`${CONFIG_URL}/user/login.php`, user);
+        commit('setUser', response.data);
     },
-    setLoggedInUser: (user: IUser) => {
-
-    }
+    
+    async registerUser({commit} : {commit: any}, user: any){
+      const response = await axios.post(`${CONFIG_URL}/user/register.php/`, user);
+      commit('setUser', response.data);
+  },
 };
 
 const mutations = {
-    
+    setUser: (state: { user: any; }, user: any) => (state.user = user),
 };
 
 export default  {

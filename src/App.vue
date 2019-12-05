@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 	<!-- Send logged in status to all routered components through props -->
-    <router-view :loggedIn="getLoggedInStatus"/>
+    <router-view :loggedIn="false"/>
 	<BackgroundImage></BackgroundImage>
   </div>
 </template>
