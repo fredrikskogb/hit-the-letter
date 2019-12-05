@@ -4,7 +4,7 @@
 			<p @click="toggleFields">
 				Log in / Register
 			</p>
-			<p @click="promptCompleted">
+			<p>
 				Play without logging in
 			</p>
 		</div>
@@ -66,6 +66,7 @@ export default Vue.extend({
 		async verifySignup() {
 			await this.registerUser(this.newUser);
 			console.log(this.user);
+			console.log(this.newUser)
 		}
 	},
 	
