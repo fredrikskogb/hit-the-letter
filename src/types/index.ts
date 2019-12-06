@@ -1,11 +1,12 @@
 export interface IUser {
     id: number,
     email: String,
+    username: String,
     password: String
 }
 
 export interface IUserService {
     getAll(): any,
-    loginCustomer(email: string, password: string): any,
-    setCustomer(email: string, password: string): any
+    loginUser(email: string, password: string): any,
+    setUser(email: string, password: string): any
 }
