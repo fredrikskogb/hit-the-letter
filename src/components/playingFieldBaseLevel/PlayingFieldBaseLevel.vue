@@ -43,7 +43,7 @@
       return {
         interval: 0,
         level: 1,
-        points: 1,
+        points: 0,
         letterData: [],
         nextLevel: false,
         gameFailed: false
