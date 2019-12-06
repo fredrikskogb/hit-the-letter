@@ -58,10 +58,10 @@ export default Vue.extend({
 		},
 		verifyLogin() {
 			this.loginUser({email: this.newUser.email, password: this.newUser.password});
-			//this.addHighscore()
 		},
-		verifySignup() {
-			this.registerUser(this.newUser);
+		async verifySignup() {
+			await this.registerUser(this.newUser);
+			this.addHighscore({userId: this.user.id, points: 0, level: 0});
 		}
 	},
 	
