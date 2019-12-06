@@ -5,18 +5,18 @@
 
       <div class="letter-container" 
         v-for="letter in letterData" 
+        id="letter"
         :key="Object.keys(letter)[0]" 
         :class="{active: isActive(letter)}">
 
-        <PlayingFieldLetter :letter="Object.keys(letter)[0]">
-        </PlayingFieldLetter>
+        <PlayingFieldLetter :letter="Object.keys(letter)[0]" />
       </div>
       <div class="information-container">
         <p class="timer">Time left: <Countdown :startingTime="2" v-on:time-is-out="gameEnd"/></p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
-      <PlayerShip/>
+      <PlayerShip />
     </div>
 
     <NextLevel v-if="nextLevel"
@@ -58,7 +58,7 @@
       NextLevel
     },
 
-    props: ["letters", "activeLetter"],
+    props: ["letters"],
 
     methods: {
 
@@ -89,6 +89,21 @@
       isActive(letter: any): boolean {
         // Check if false/true to give "active" as class
         return letter[Object.keys(letter)[0]];
+      },
+
+      handleKeypress(event: KeyboardEvent) {
+        //get pressed letter
+        const target = event.key.toUpperCase();
+        const activeLetter = this.letterData.find(obj => obj[target] === true)
+        if(activeLetter) {
+          const hitLetter = document.getElementsByClassName("active")[0];
+            hitLetter.setAttribute("class", hitLetter.getAttribute("class") + " correct");
+            this.points += this.level * 1;
+        } else {
+          this.gameFailed = true;
+          this.gameEnd();
+        }
+        
       },
 
       async setUserHighscore() {
@@ -158,6 +173,7 @@
       // Make letters to object to get access to boolean for Vue DOM manipulation
       this.makeFalsy();
       this.fetchHighscore(this.user.id);
+      window.addEventListener("keydown", this.handleKeypress);
     },
 
     // Mounted lifecycle hook because we need to wait for DOM render
