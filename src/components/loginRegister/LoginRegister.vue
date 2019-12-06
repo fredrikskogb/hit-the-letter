@@ -4,7 +4,7 @@
 			<p @click="toggleFields">
 				Log in / Register
 			</p>
-			<router-link to="/playing-field">Play without logging in</router-link>
+			<router-link to="/customization-menu">Play without logging in</router-link>
 		</div>
 		<div class="login-register-fields" v-if="openFields">
 			<input v-model="newUser.email" name="email" type="text" />
@@ -54,12 +54,14 @@ export default Vue.extend({
 		toggleFields() {
 			this.openFields = !this.openFields;
 		},
-		verifyLogin() {
-			this.loginUser({email: this.newUser.email, password: this.newUser.password});
+		async verifyLogin() {
+			await this.loginUser({email: this.newUser.email, password: this.newUser.password});
+			if(this.user.hasOwnProperty('id')) this.$router.push({ path: '/customization-menu' });
 		},
 		async verifySignup() {
 			await this.registerUser(this.newUser);
 			this.addHighscore({userId: this.user.id, points: 0, level: 0});
+			if(this.user.hasOwnProperty('id')) this.$router.push({ path: '/customization-menu' });
 		}
 	},
 	
@@ -84,14 +86,16 @@ export default Vue.extend({
 		user-select: none;
 		text-align: center;
 		.login-register-options {
+			* {
+				margin: 5px;
+			}
 			p {
-				margin: 10px;
 				cursor: pointer;
-				text-decoration: underline;
 			}
 			a {
 				color: black;
 				box-shadow: none;
+				text-decoration: none;
 			}
 		}
 	}

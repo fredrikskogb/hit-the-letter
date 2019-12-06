@@ -1,13 +1,11 @@
 <template>
   <div class="home">
     <Nav></Nav>
-    <h1 class="">This is the home page.</h1>
     <div class="logged-in-name" v-if="user.id">
       <p>Logged in as {{ user.username }}</p>
       <p class="sign-out" @click="signOut">Sign out</p>
     </div>
     <LoginRegister v-if="!user.id" />
-    <CustomizationMenu v-if="user.id" />
   </div>
 </template>
 
@@ -16,7 +14,6 @@
 import Vue from 'vue'
 import LoginRegister from '@/components/loginRegister/LoginRegister.vue';
 import Nav from '@/components/layout/Nav.vue';
-import CustomizationMenu from '@/components/customizationMenu/CustomizationMenu.vue';
 import { IUser } from '@/types/index.ts';
 import { mapGetters, mapActions } from 'vuex';
 
@@ -34,8 +31,7 @@ export default Vue.extend ({
 
   components: {
     LoginRegister,
-    Nav,
-    CustomizationMenu
+    Nav
   },
 
   methods: {
@@ -46,7 +42,7 @@ export default Vue.extend ({
   },
 
   created(): void {
-
+    
   }
 })
 
@@ -55,10 +51,6 @@ export default Vue.extend ({
 <style lang="less" scoped>
 
   @import url('../styles/main.less');
-
-  h1 {
-     .text-styling;
-  }
 
   .logged-in-name {
     position: absolute;
