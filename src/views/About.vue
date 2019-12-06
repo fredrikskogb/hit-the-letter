@@ -11,7 +11,6 @@ import Vue from 'vue'
 import LoginRegister from '@/components/loginRegister/LoginRegister.vue';
 import Nav from '@/components/layout/Nav.vue';
 import { IUser } from '@/types/index.ts';
-import { user } from '@/mocks/user.ts';
 
 export default Vue.extend ({
 
