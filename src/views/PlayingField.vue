@@ -1,6 +1,11 @@
 <template>
   <div class="playing-field-container">
-    <PlayingFieldBaseLevel class="playing-field-base-level" :letters="letters"></PlayingFieldBaseLevel>
+    <PlayingFieldBaseLevel
+      class="playing-field-base-level"
+      :letters="letters"
+      :activeLetter="activeLetter"
+      v-on:keydown="handleKeypress"
+    />
   </div>
 </template>
 
@@ -16,12 +21,23 @@
       PlayingFieldBaseLevel
     },
 
+    methods: {
+      handleKeypress(event: KeyboardEvent) {
+        this.activeLetter = event.key;
+        console.log(this.activeLetter);
+        setTimeout(() => {
+          this.activeLetter = "";
+        }, 2);
+      }
+    },
+
     data(): {} {
       return {
         letters: [
           "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
           "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
-        ]
+        ],
+        activeLetter: ""
       }
     }
     

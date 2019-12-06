@@ -58,7 +58,7 @@
       NextLevel
     },
 
-    props: ["letters"],
+    props: ["letters", "activeLetter"],
 
     methods: {
 
@@ -205,6 +205,13 @@
 
   .active {
     background-color: rgba(66, 175, 66, 0.767);
+    &.correct {
+      background-color: rgb(18, 223, 18);
+    }
+  }
+
+  .incorrect {
+    background-color: rgba(200, 50, 50, 0.8);
   }
 
   .information-container {
