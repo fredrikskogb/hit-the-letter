@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import PlayingField from '../views/PlayingField.vue';
+import Customization from "../views/Customization.vue";
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/playing-field',
     name: 'playingField',
     component: PlayingField
+  },
+  {
+    path: '/customization-menu',
+    name: 'customizationMenuView',
+    component: Customization
   },
   {
     path: '/about',

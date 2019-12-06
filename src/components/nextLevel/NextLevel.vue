@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="next-level">
     <button @click="homeScreen" v-if="gameFailed">Game over. Return to home screen.</button>
     <button @click="nextLevel" v-if="!gameFailed">Good work. Go to next level.</button>
   </div>
@@ -22,6 +22,13 @@
   })
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+@import url('../../styles/main.less');
+
+.next-level {
+  display: inline-block;
+  .hv-centering;
+  .card;
+}
 
 </style>
