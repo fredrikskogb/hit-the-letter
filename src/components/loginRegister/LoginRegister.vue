@@ -52,15 +52,16 @@ export default Vue.extend({
 	
 	// Declare methods/functions of this component inside this block
 	methods: {
-		...mapActions(['loginUser', 'registerUser']),
+		...mapActions(['loginUser', 'registerUser', 'addHighscore']),
 		toggleFields() {
 			this.openFields = !this.openFields;
 		},
 		verifyLogin() {
 			this.loginUser({email: this.newUser.email, password: this.newUser.password});
 		},
-		verifySignup() {
-			this.registerUser(this.newUser);
+		async verifySignup() {
+			await this.registerUser(this.newUser);
+			this.addHighscore({userId: this.user.id, points: 0, level: 0});
 		}
 	},
 	
