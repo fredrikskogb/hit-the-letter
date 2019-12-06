@@ -2,7 +2,7 @@
   <div class="home">
     <Nav></Nav>
     <h1 class="">This is the home page.</h1>
-    <p class="logged-in-name" v-if="user.id">Logged in as {{ user.id }}</p>
+    <p class="logged-in-name" v-if="user.id">Logged in as {{ user.username }}</p>
     <LoginRegister v-if="!user.id" />
     <CustomizationMenu v-if="user.id" />
   </div>

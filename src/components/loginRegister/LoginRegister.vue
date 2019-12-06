@@ -57,16 +57,10 @@ export default Vue.extend({
 			this.openFields = !this.openFields;
 		},
 		verifyLogin() {
-			// if (true) {
-				this.loginUser(this.newUser);
-			// } else {
-			// 	return;
-			// }
+			this.loginUser({email: this.newUser.email, password: this.newUser.password});
 		},
-		async verifySignup() {
-			await this.registerUser(this.newUser);
-			console.log(this.user);
-			console.log(this.newUser)
+		verifySignup() {
+			this.registerUser(this.newUser);
 		}
 	},
 	
