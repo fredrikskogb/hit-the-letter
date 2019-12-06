@@ -37,10 +37,15 @@ const actions = {
       console.log(response.data);
       commit('setUser', response.data);
   },
+
+  resetUserState ({commit} : {commit: any}) {
+    commit('resetUser');
+  },
 };
 
 const mutations = {
     setUser: (state: { user: any; }, user: any) => (state.user = user),
+    resetUser: (state: { user: any; }) => (state.user = {}),
 };
 
 export default  {
