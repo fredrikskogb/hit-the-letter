@@ -4,9 +4,7 @@
 			<p @click="toggleFields">
 				Log in / Register
 			</p>
-			<p>
-				Play without logging in
-			</p>
+			<router-link to="/playing-field">Play without logging in</router-link>
 		</div>
 		<div class="login-register-fields" v-if="openFields">
 			<input v-model="newUser.email" name="email" type="text" />
@@ -89,6 +87,11 @@ export default Vue.extend({
 			p {
 				margin: 10px;
 				cursor: pointer;
+				text-decoration: underline;
+			}
+			a {
+				color: black;
+				box-shadow: none;
 			}
 		}
 	}
