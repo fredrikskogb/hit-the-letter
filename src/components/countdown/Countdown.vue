@@ -27,7 +27,7 @@
           this.timeLeft--;
           if (this.timeLeft <= 0) {
             clearInterval(this.countdown);
-            this.$emit('time-is-out');
+            this.$emit('time-is-out', true);
             return;
           }
         }, 1000);

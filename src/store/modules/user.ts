@@ -6,7 +6,11 @@ import CONFIG_URL from '../../../config-url';
 const state = {
 
     allUsers: [] as IUser[],
-    user: {} as IUser,
+    user: {
+        id: 2,
+        points: 0,
+        level: 0,
+    } as any,
     loggedInStatus: false,
 
     highscore: {},
@@ -16,7 +20,7 @@ const state = {
 
 const getters = {
 
-    user: (state: { user: IUser; }) => state.user,
+    user: (state: { user: any; }) => state.user,
     allUsers: (state: { allUsers: IUser[]; }) => state.allUsers,
     loggedInStatus: (state: { loggedInStatus: boolean; }) => state.loggedInStatus,
 
