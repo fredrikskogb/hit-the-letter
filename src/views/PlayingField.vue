@@ -1,6 +1,9 @@
 <template>
   <div class="playing-field-container">
-    <PlayingFieldBaseLevel class="playing-field-base-level" :letters="letters"></PlayingFieldBaseLevel>
+    <PlayingFieldBaseLevel
+      class="playing-field-base-level"
+      :letters="letters"
+    />
   </div>
 </template>
 
