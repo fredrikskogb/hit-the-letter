@@ -10,16 +10,18 @@
         :class="{
           active: isActive(letter),
           correct: isCorrect(letter)
-        }">
+        }"
+        :ref=letter
+        >
 
         <PlayingFieldLetter :letter="Object.keys(letter)[0]" />
       </div>
       <div class="information-container">
-        <p class="timer">Time left: <Countdown :startingTime="10" v-on:time-is-out="gameEnd(true)"/></p>
+        <p class="timer">Time left: <Countdown :startingTime="60" v-on:time-is-out="gameEnd(true)"/></p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
-      <PlayerShip />
+      <PlayerShip :style="pos" />
     </div>
 
     <NextLevel v-if="nextLevel"
@@ -50,7 +52,8 @@
         letterData: [],
         nextLevel: false,
         gameFailed: false,
-        correctHit: false
+        correctHit: false,
+        pos: "left: "
       }
 
     },
@@ -79,16 +82,23 @@
         })
       },
 
-      makeActive(): void {
+      makeActive(): any {
         // reset values
         this.makeFalsy();
         this.correctHit = false;
         // Takes a random letter.
-        let letter: any = this.letterData[Math.floor(Math.random() * this.letterData.length)];
+        const index = Math.floor(Math.random() * this.letterData.length);
+        let letter: any = this.letterData[index];
         // Make letter active
         let key = Object.keys(letter)[0];
         letter[key] = true;
-      
+
+        this.setPos(letter, index);
+      },
+
+      setPos(letter: any, index: number): void {
+        const element = this.$refs[letter] as HTMLElement[];
+        this.pos = "left: " + (element[index].getBoundingClientRect().left - 110)  + "px";
       },
 
       isActive(letter: any): boolean {
