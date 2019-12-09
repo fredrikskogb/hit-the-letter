@@ -7,7 +7,10 @@
         v-for="letter in letterData" 
         id="letter"
         :key="Object.keys(letter)[0]" 
-        :class="{active: isActive(letter)}">
+        :class="{
+          active: isActive(letter),
+          correct: isCorrect(letter)
+        }">
 
         <PlayingFieldLetter :letter="Object.keys(letter)[0]" />
       </div>
@@ -46,7 +49,8 @@
         points: 0,
         letterData: [],
         nextLevel: false,
-        gameFailed: false
+        gameFailed: false,
+        correctHit: false
       }
 
     },
@@ -78,6 +82,7 @@
       makeActive(): void {
         // reset values
         this.makeFalsy();
+        this.correctHit = false;
         // Takes a random letter.
         let letter: any = this.letterData[Math.floor(Math.random() * this.letterData.length)];
         // Make letter active
@@ -91,20 +96,26 @@
         return letter[Object.keys(letter)[0]];
       },
 
+      isCorrect(letter: any): boolean {
+        if(this.correctHit) {
+          return true;
+        }
+        return false;
+      },
+
       handleKeypress(event: KeyboardEvent) {
         //get pressed letter
         const target = event.key.toUpperCase();
-        const activeLetter = this.letterData.find(obj => obj[target] === true)
-        if(activeLetter) {
-          const hitLetter = document.getElementsByClassName("active")[0];
-            hitLetter.setAttribute("class", hitLetter.getAttribute("class") + " correct");
-            this.points += this.level * 1;
+        //find the active letter by searching object letterData values for true
+        const activeLetterHit = this.letterData.find(obj => obj[target] === true)
+        if(activeLetterHit && !this.correctHit) {
+          this.correctHit = true;
+          this.points += this.level;
         } else {
           this.gameFailed = true;
           const timeIsOut = false;
           this.gameEnd(timeIsOut);
         }
-        
       },
 
       async setUserHighscore() {
