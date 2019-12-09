@@ -133,9 +133,13 @@
           this.correctHit = true;
           this.points += this.level;
         } else {
-          this.gameFailed = true;
-          const timeIsOut = false;
-          this.gameEnd(timeIsOut);
+          if(this.inventory.hearts > 0) {
+            this.inventory.hearts--;
+          } else {
+            this.gameFailed = true;
+            const timeIsOut = false;
+            this.gameEnd(timeIsOut);
+          }
         }
       },
 
