@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div v-if="!nextLevel" class="letters-container">
+    <div v-if="!nextLevel" class="playing-field">
 
       <div class="letter-container" 
         v-for="letter in letterData" 
@@ -15,11 +15,28 @@
         <PlayingFieldLetter :letter="Object.keys(letter)[0]" />
       </div>
       <div class="information-container">
-        <p class="timer">Time left: <Countdown :startingTime="10" v-on:time-is-out="gameEnd(true)"/></p>
+        <p class="timer">Time left: <Countdown :startingTime="60" v-on:time-is-out="gameEnd(true)"/></p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
+
+      <div class="player-inventory">
+        <div class="player-heart-container">
+          <div v-for="(heart, index) in inventory.hearts"
+            :id="'heart' + index"
+            class="player-heart"
+            :key="'heart' + index" />
+        </div>
+        <div class="player-bomb-container">
+          <div v-for="(bomb, index) in inventory.bombs"
+            :id="'bomb' + index"
+            class="player-bomb"
+            :key="'bomb' + index" />
+        </div>
+      </div>
+
       <PlayerShip />
+
     </div>
 
     <NextLevel v-if="nextLevel"
@@ -50,7 +67,11 @@
         letterData: [],
         nextLevel: false,
         gameFailed: false,
-        correctHit: false
+        correctHit: false,
+        inventory: {
+          hearts: 3,
+          bombs: 3
+        }
       }
 
     },
@@ -202,13 +223,14 @@
 <style lang="less" scoped>
 @import url('../../styles/main.less');
 
-.letters-container {
+.playing-field {
   user-select: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   width: 80vw;
   margin: 0 auto;
+
   @media (min-width: 768px) and (max-width: 1024px) {
     width: 100vw;
     user-select: initial;
@@ -251,6 +273,41 @@
     justify-content: space-between;
     font-weight: bold;
     font-size: 1.1em;
+  }
+
+  .player-inventory {
+    margin-top: 100px;
+    height: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .player-heart-container {
+      display: flex;
+      width: auto;
+
+      .player-heart {
+        background-image: url("../../assets/images/heart.png");
+        background-size: contain;
+        height: 36px;
+        width: 36px;
+        margin-right: 5px;
+      }
+    }
+
+    .player-bomb-container {
+      display: flex;
+      justify-content: flex-end;
+      width: auto;
+
+      .player-bomb {
+        background-image: url("../../assets/images/bomb.png");
+        background-size: contain;
+        height: 36px;
+        width: 36px;
+        margin-left: 5px;
+      }
+    }
   }
 }
 
