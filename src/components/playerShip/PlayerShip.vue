@@ -20,10 +20,10 @@
 div {
   position: absolute;
   margin: 0 auto;
-  bottom: 50px;
+  bottom: 120px;
   width: 350px;
   animation: rotation 0.2s linear infinite alternate;
-box-shadow: 3px 140px 19px -96px rgba(0,0,0,0.75);
+  box-shadow: 3px 140px 19px -10px rgba(0,0,0,0.75);
 
 }
 @keyframes rotation { 

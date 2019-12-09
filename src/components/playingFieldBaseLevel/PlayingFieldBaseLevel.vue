@@ -21,7 +21,9 @@
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
-      <PlayerShip :style="pos" />
+      <transition name="slide-fade" mode="out-in">
+        <PlayerShip :style="pos" :key="pos" class="ship-container"/>
+      </transition>
     </div>
 
     <NextLevel v-if="nextLevel"
@@ -98,7 +100,10 @@
 
       setPos(letter: any, index: number): void {
         const element = this.$refs[letter] as HTMLElement[];
-        this.pos = "left: " + (element[index].getBoundingClientRect().left - 110)  + "px";
+
+        console.log(element[index].getBoundingClientRect());
+        
+        this.pos = "left: " + (element[index].getBoundingClientRect().left + 20)  + "px";
       },
 
       isActive(letter: any): boolean {
@@ -262,6 +267,38 @@
     font-weight: bold;
     font-size: 1.1em;
   }
+
+  /*.teleport {
+    animation: 0.2s linear;
+		animation-name: teleport; 
+  }*/
+
+  /*@keyframes teleport {
+     0% {
+            transform: scale(1.0);
+        }
+        50% {
+            transform: scale(0);
+        }
+        100% {
+            transform: scale(1.0);
+        }
+     }*/
+
+  .slide-fade-enter-active {
+    transition: all 1ms ease;
+    transform: rotate(10deg);
+  }
+  .slide-fade-leave-active {
+    transition: all 1ms cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    display: block;
+    transform: scale(0.8, 0.8);
+  }
+  .ship-container {
+    width: 100px;
+
+  }
+
 }
 
 </style>
