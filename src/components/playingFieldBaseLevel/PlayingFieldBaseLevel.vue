@@ -15,7 +15,7 @@
         <PlayingFieldLetter :letter="Object.keys(letter)[0]" />
       </div>
       <div class="information-container">
-        <p class="timer">Time left: <Countdown :startingTime="60" v-on:time-is-out="gameEnd(true)"/></p>
+        <p class="timer">Time left: <Countdown :timeLeft="timeLeft" v-on:time-is-out="gameEnd(true)"/></p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
@@ -61,6 +61,7 @@
     data() {
 
       return {
+        timeLeft: 60,
         interval: 0,
         level: 1,
         points: 0,
@@ -132,6 +133,7 @@
         if(activeLetterHit && !this.correctHit) {
           this.correctHit = true;
           this.points += this.level;
+          this.getLoot();
         } else {
           if(this.inventory.hearts > 0) {
             this.inventory.hearts--;
@@ -140,6 +142,20 @@
             const timeIsOut = false;
             this.gameEnd(timeIsOut);
           }
+        }
+      },
+
+      getLoot() {
+        const roll = Math.ceil(Math.random() * 100);
+
+        if(roll >= 99) {
+          this.timeLeft += 10;
+        } else if(roll >= 95) {
+          this.inventory.hearts++;
+        } else if(roll >= 90) {
+          this.inventory.bombs++;
+        } else {
+          return;
         }
       },
 

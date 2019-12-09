@@ -1,6 +1,6 @@
 <template>
   <span>
-    {{timeLeft}}
+    {{timeRemaining}}
   </span>
 </template>
 
@@ -13,19 +13,19 @@
     
     data() {
       return {
-        timeLeft: 0,
+        timeRemaining: 0,
         countdown: 0
       }
     },
 
-    props: ['startingTime'],
+    props: ['timeLeft'],
 
     methods: {
       countdownFunction() {
-        this.timeLeft = this.startingTime;
+        this.timeRemaining = this.timeLeft;
         this.countdown = setInterval(() => {
-          this.timeLeft--;
-          if (this.timeLeft <= 0) {
+          this.timeRemaining--;
+          if (this.timeRemaining <= 0) {
             clearInterval(this.countdown);
             this.$emit('time-is-out', true);
             return;
