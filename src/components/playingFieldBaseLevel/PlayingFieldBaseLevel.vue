@@ -12,7 +12,7 @@
         <PlayingFieldLetter :letter="Object.keys(letter)[0]" />
       </div>
       <div class="information-container">
-        <p class="timer">Time left: <Countdown :startingTime="60" v-on:time-is-out="gameEnd"/></p>
+        <p class="timer">Time left: <Countdown :startingTime="10" v-on:time-is-out="gameEnd(true)"/></p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
@@ -101,7 +101,8 @@
             this.points += this.level * 1;
         } else {
           this.gameFailed = true;
-          this.gameEnd();
+          const timeIsOut = false;
+          this.gameEnd(timeIsOut);
         }
         
       },
@@ -109,7 +110,8 @@
       async setUserHighscore() {
         /* Check highscore values from highscore vuex state and compare to this session.
            Add user id from users vuex state. */
-        if(this.singleHighscore.points < this.points && this.singleHighscore.level < this.level) {
+           console.log(this.singleHighscore);
+        if(this.singleHighscore.points < this.points) {
           this.updateHighscore({userId: this.user.id, points: this.points, level: this.level});
           console.log("Updating highscore");
         } else {
@@ -133,7 +135,7 @@
           localStoragePoints = "0";
         }
 
-        if(parseInt(localStorageLevel) < this.level && parseInt(localStoragePoints) < this.points){
+        if(parseInt(localStoragePoints) < this.points){
           console.log("Setting new highscore...")
           localStorage.setItem("level", this.level.toString());
           localStorage.setItem("points", this.points.toString());

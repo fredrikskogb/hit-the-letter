@@ -11,7 +11,8 @@ const getters = {
 
 const actions = {
     async fetchHighscore({commit} : {commit: any}, userId: any) {
-        const response = await axios.get(`${CONFIG_URL}/highscore/getHighscore.php/${userId}`);
+        console.log(userId);
+        const response = await axios.get(`${CONFIG_URL}/highscore/getHighscore.php?userId=${userId}`);
         commit('setHighscore', response.data);
     },
     async updateHighscore({commit} : {commit: any}, userHighscore: any){
