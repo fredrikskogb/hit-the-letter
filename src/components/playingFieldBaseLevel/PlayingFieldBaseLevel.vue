@@ -130,7 +130,9 @@
         const target = event.key.toUpperCase();
         //find the active letter by searching object letterData values for true
         const activeLetterHit = this.letterData.find(obj => obj[target] === true)
-        if(activeLetterHit && !this.correctHit) {
+        if(event.key === " ") {
+          this.useBomb();
+        } else if(activeLetterHit && !this.correctHit) {
           this.correctHit = true;
           this.points += this.level;
           this.getLoot();
@@ -143,6 +145,11 @@
             this.gameEnd(timeIsOut);
           }
         }
+      },
+
+      useBomb() {
+        //TODO: implement bomb functionality
+        this.inventory.bombs--;
       },
 
       getLoot() {
