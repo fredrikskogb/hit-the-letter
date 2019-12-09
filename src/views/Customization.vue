@@ -13,7 +13,7 @@
   import Vue from 'vue';
   import CustomizationMenu from '@/components/customizationMenu/CustomizationMenu.vue';
   import Nav from '@/components/layout/Nav.vue';
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
 
   export default Vue.extend({
 
@@ -22,7 +22,13 @@
       CustomizationMenu,
       Nav
     },
-    computed: mapGetters(["user"])
+    computed: mapGetters(["user"]),
+    methods: {
+      ...mapActions(["resetUserState"]),
+      signOut() {
+        this.resetUserState();
+      }
+    }
 
   })
 </script>
