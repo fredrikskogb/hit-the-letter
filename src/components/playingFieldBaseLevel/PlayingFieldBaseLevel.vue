@@ -155,11 +155,11 @@
       getLoot() {
         const roll = Math.ceil(Math.random() * 100);
 
-        if(roll >= 99) {
+        if(roll === 100) {
           this.timeLeft += 10;
-        } else if(roll >= 95) {
+        } else if(roll >= 96) {
           this.inventory.hearts++;
-        } else if(roll >= 90) {
+        } else if(roll >= 92) {
           this.inventory.bombs++;
         } else {
           return;
