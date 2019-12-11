@@ -21,7 +21,11 @@
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
-      <div class="ship-shot-container" :style="laserLength"></div>
+      <div class="ship-shot-container" :style="laserLength">
+        <transition name="laser" mode="out-in">
+          <div :class="{laser : correctHit}" :key="correctHit"></div>
+        </transition>
+      </div>
       <transition name="slide-fade" mode="out-in">
         <PlayerShip :style="{ left: pos + 'px'}" :key="pos" class="ship-container" ref="ship"/>
       </transition>
@@ -122,13 +126,13 @@
           x: element[index].getBoundingClientRect().x,
           y: element[index].getBoundingClientRect().y
         };
-        const horizontal = shipXY.x - elementXY.x;
+        const horizontal = (shipXY.x - ship.$el.getBoundingClientRect().height) - (shipXY.x - element[index].getBoundingClientRect().height);
         const vertical = shipXY.y - elementXY.y;
 
         const distanceBetween = Math.sqrt(horizontal*horizontal + vertical*vertical);
         this.laserLength = {
           left: this.pos + 'px',
-          height: distanceBetween + 'px'
+          height: distanceBetween - 50 + 'px'
         }
         console.log(this.laserLength)
       },
@@ -330,8 +334,28 @@
     width: 100px;
     position: absolute;
     margin: 0 auto;
-    bottom: 120px;
+    bottom: 160px;
   }
+
+  .laser {
+    background-image: url("../../assets/images/laser.png");
+    background-position: center;
+    background-size: 20px 5px;
+    opacity: 0.5;
+    margin: 0 auto;
+    width: 10px;
+    height: inherit;
+  }
+
+  .laser-enter-active {
+    transition: all 0.2s ease;
+    background-color: lightgreen    
+  }
+  .laser-leave-active {
+    transition: all 0.1s ease;
+    display: none;
+    background-color: pink;
+}
 
 }
 
