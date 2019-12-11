@@ -21,8 +21,9 @@
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
+      <div class="ship-shot-container" :style="laserLength"></div>
       <transition name="slide-fade" mode="out-in">
-        <PlayerShip :style="pos" :key="pos" class="ship-container"/>
+        <PlayerShip :style="{ left: pos + 'px'}" :key="pos" class="ship-container" ref="ship"/>
       </transition>
     </div>
 
@@ -55,7 +56,8 @@
         nextLevel: false,
         gameFailed: false,
         correctHit: false,
-        pos: "left: "
+        pos: "left: ",
+        laserLength: {}
       }
 
     },
@@ -95,15 +97,40 @@
         let key = Object.keys(letter)[0];
         letter[key] = true;
 
-        this.setPos(letter, index);
+        const element = this.$refs[letter] as HTMLElement[];
+        const ship = this.$refs["ship"] as Vue;
+
+        this.setPos(element, index, ship);
+        this.getDistanceToLetter(element, index, ship);
+
       },
 
-      setPos(letter: any, index: number): void {
-        const element = this.$refs[letter] as HTMLElement[];
+      setPos(element: any, index: any, ship: any): void {  
 
-        console.log(element[index].getBoundingClientRect());
-        
-        this.pos = "left: " + (element[index].getBoundingClientRect().left + 20)  + "px";
+        this.pos = (element[index].getBoundingClientRect().left +
+        (ship.$el.getBoundingClientRect().width * 0.5));
+
+      },
+
+
+      getDistanceToLetter(element: any, index: any, ship: any){
+        const shipXY = {
+          x: ship.$el.getBoundingClientRect().x,
+          y: ship.$el.getBoundingClientRect().y
+        };
+        const elementXY = {
+          x: element[index].getBoundingClientRect().x,
+          y: element[index].getBoundingClientRect().y
+        };
+        const horizontal = shipXY.x - elementXY.x;
+        const vertical = shipXY.y - elementXY.y;
+
+        const distanceBetween = Math.sqrt(horizontal*horizontal + vertical*vertical);
+        this.laserLength = {
+          left: this.pos + 'px',
+          height: distanceBetween + 'px'
+        }
+        console.log(this.laserLength)
       },
 
       isActive(letter: any): boolean {
@@ -286,7 +313,7 @@
      }*/
 
   .slide-fade-enter-active {
-    transition: all 1ms ease;
+    transition: all 0.1s ease;
     transform: rotate(10deg);
   }
   .slide-fade-leave-active {
@@ -297,6 +324,13 @@
   .ship-container {
     width: 100px;
 
+  }
+
+  .ship-shot-container {
+    width: 100px;
+    position: absolute;
+    margin: 0 auto;
+    bottom: 120px;
   }
 
 }
