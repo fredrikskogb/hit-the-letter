@@ -343,7 +343,7 @@
     background-size: 20px 5px;
     opacity: 0.5;
     margin: 0 auto;
-    width: 10px;
+    width: 27px;
     height: inherit;
   }
 
