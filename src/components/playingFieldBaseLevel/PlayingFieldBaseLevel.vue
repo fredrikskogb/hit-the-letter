@@ -60,7 +60,7 @@
         nextLevel: false,
         gameFailed: false,
         correctHit: false,
-        pos: "left: ",
+        pos: "",
         laserLength: {}
       }
 
@@ -118,23 +118,29 @@
 
 
       getDistanceToLetter(element: any, index: any, ship: any){
+
         const shipXY = {
           x: ship.$el.getBoundingClientRect().x,
           y: ship.$el.getBoundingClientRect().y
         };
+
         const elementXY = {
           x: element[index].getBoundingClientRect().x,
           y: element[index].getBoundingClientRect().y
         };
-        const horizontal = (shipXY.x - ship.$el.getBoundingClientRect().height) - (shipXY.x - element[index].getBoundingClientRect().height);
+
+        const horizontal = (shipXY.x - ship.$el.getBoundingClientRect().height) - 
+        (shipXY.x - element[index].getBoundingClientRect().height);
+
         const vertical = shipXY.y - elementXY.y;
 
         const distanceBetween = Math.sqrt(horizontal*horizontal + vertical*vertical);
+
         this.laserLength = {
           left: this.pos + 'px',
           height: distanceBetween - 50 + 'px'
         }
-        console.log(this.laserLength)
+
       },
 
       isActive(letter: any): boolean {
