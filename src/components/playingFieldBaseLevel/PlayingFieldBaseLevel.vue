@@ -157,7 +157,7 @@
           setTimeout(() => {
             this.correctHitAnimation = false;
             return false;
-          }, 200)
+          }, 250)
 
         }
 
@@ -231,6 +231,7 @@
         }
         if (timeIsOut) this.gameFailed = true;
         this.nextLevel = true;
+        clearInterval(this.interval);
       },
 
       // Function run from NextLevel.vue
@@ -359,13 +360,58 @@
     width: 27px;
     height: inherit;
     animation-name: laserAnimation;
-    animation-duration: 0.1s; 
+    animation-duration: 0.15s; 
   }
 
   @keyframes laserAnimation { 
     0% {
-      background-color: rgb(210, 86, 214);
+      width: 0px;
     }
+    5% {
+      background-color: rgba(86, 205, 214, 0.507);
+      width: 7px;
+    }
+    10% {
+      background-color: rgb(90, 214, 86);
+      width: 12px;
+    }
+    15% {
+      background-color: rgba(112, 214, 86, 0.9);
+      width: 25px;
+    }
+    20% {
+      background-color: rgb(210, 86, 214, 0.8);
+      width: 10px;
+    }
+    25% {
+      background-color: rgb(210, 86, 214, 1);
+      width: 29px;
+    }
+    35% {
+      background-color: rgba(107, 214, 86, 0.95);
+      width: 22px;
+    }
+    50% {
+      background-color: rgba(86, 214, 86, 0.85);
+      width: 19px;
+    }
+    60% {
+      background-color: rgb(210, 86, 214, 0.75);
+      width: 17px;
+    }
+    70% {
+      background-color: rgb(210, 86, 214, 0.60);
+      width: 15px;
+    }
+    80% {
+      background-color: rgb(210, 86, 214, 0.20);
+      width: 12px;
+    }
+    90% {
+      background-color: rgb(210, 86, 214, 0.1);
+      width: 7px;
+    }
+    
     100% {
       background-color: none;
     } 

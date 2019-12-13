@@ -81,7 +81,7 @@ export default Vue.extend({
 	.login-register-wrapper {
 		.hv-centering;
 		.card;
-		color: black;
+		color: white;
 		border-radius: @card-border-radius;
 		user-select: none;
 		text-align: center;
@@ -93,7 +93,7 @@ export default Vue.extend({
 				cursor: pointer;
 			}
 			a {
-				color: black;
+				color: white;
 				box-shadow: none;
 				text-decoration: none;
 			}
