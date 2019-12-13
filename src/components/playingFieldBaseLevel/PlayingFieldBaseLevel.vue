@@ -17,17 +17,22 @@
         <PlayingFieldLetter :letter="Object.keys(letter)[0]" />
       </div>
       <div class="information-container">
-        <p class="timer">Time left: <Countdown :startingTime="60" v-on:time-is-out="gameEnd(true)"/></p>
+        <p class="timer">Time left: 
+          <Countdown :startingTime="60" v-on:time-is-out="gameEnd(true)"/>
+        </p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
-      <div class="ship-shot-container" :style="laserLength">
+      <div class="ship-shot-container" :style="laserStyles">
         <transition name="laser" mode="out-in">
           <div :class="{laser : correctHit}" :key="correctHit"></div>
         </transition>
       </div>
       <transition name="slide-fade" mode="out-in">
-        <PlayerShip :style="{ left: pos + 'px'}" :key="pos" class="ship-container" ref="ship"/>
+        <PlayerShip class="ship-container"
+          :style="{left: pos + 'px'}"
+          :key="pos"
+          ref="ship"/>
       </transition>
     </div>
 
@@ -44,14 +49,13 @@
   import Countdown from '@/components/countdown/Countdown.vue';
   import PlayerShip from '@/components/playerShip/PlayerShip.vue';
   import NextLevel from "@/components/nextLevel/NextLevel.vue";
-  import {mapGetters, mapActions} from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
 
   export default Vue.extend({
 
     name: "playingFieldBaseLevel" as string,
 
     data() {
-
       return {
         interval: 0,
         level: 1,
@@ -61,9 +65,8 @@
         gameFailed: false,
         correctHit: false,
         pos: "",
-        laserLength: {}
+        laserStyles: {}
       }
-
     },
 
     components: {
@@ -82,65 +85,58 @@
       makeFalsy(): void {
         // Make letters to object to get access to boolean for Vue DOM manipulation
         this.letterData = this.letters.map((letter: string) => {
-
           return {
             [letter]: false
           }
-
         })
       },
 
-      makeActive(): any {
+      makeActive() {
         // reset values
         this.makeFalsy();
         this.correctHit = false;
         // Takes a random letter.
         const index = Math.floor(Math.random() * this.letterData.length);
-        let letter: any = this.letterData[index];
+        let activeLetter: any = this.letterData[index];
         // Make letter active
-        let key = Object.keys(letter)[0];
-        letter[key] = true;
+        let key = Object.keys(activeLetter)[0];
+        activeLetter[key] = true;
 
-        const element = this.$refs[letter] as HTMLElement[];
-        const ship = this.$refs["ship"] as Vue;
+        const letterElement = this.$refs[activeLetter] as HTMLElement;
+        const ship = this.$refs["ship"] as Vue.Component;
 
-        this.setPos(element, index, ship);
-        this.getDistanceToLetter(element, index, ship);
+        this.setPos(letterElement, index, ship);
+        this.getDistanceToLetter(letterElement, index, ship);
 
       },
 
-      setPos(element: any, index: any, ship: any): void {  
-
+      setPos(element: HTMLElement, index: number, ship: Vue): void {  
         this.pos = (element[index].getBoundingClientRect().left +
         (ship.$el.getBoundingClientRect().width * 0.5));
-
       },
 
 
-      getDistanceToLetter(element: any, index: any, ship: any){
-
-        const shipXY = {
-          x: ship.$el.getBoundingClientRect().x,
-          y: ship.$el.getBoundingClientRect().y
+      getDistanceToLetter(elementPointer: HTMLElement, index: number, shipPointer: Vue) {
+        const ship = {
+          x: shipPointer.$el.getBoundingClientRect().left,
+          y: shipPointer.$el.getBoundingClientRect().left,
+          height: shipPointer.$el.getBoundingClientRect().height
+        };
+        const element = {
+          x: elementPointer[index].getBoundingClientRect().x,
+          y: elementPointer[index].getBoundingClientRect().y,
+          height: elementPointer[index].getBoundingClientRect().height
         };
 
-        const elementXY = {
-          x: element[index].getBoundingClientRect().x,
-          y: element[index].getBoundingClientRect().y
-        };
-
-        const horizontal = (shipXY.x - ship.$el.getBoundingClientRect().height) - 
-        (shipXY.x - element[index].getBoundingClientRect().height);
-
-        const vertical = shipXY.y - elementXY.y;
+        const horizontal = (ship.x - ship.height) - (ship.x - element.height);
+        const vertical = ship.y - element.y;
 
         const distanceBetween = Math.sqrt(horizontal*horizontal + vertical*vertical);
 
-        this.laserLength = {
+        this.laserStyles = {
           left: this.pos + 'px',
           height: distanceBetween - 50 + 'px'
         }
-
       },
 
       isActive(letter: any): boolean {
@@ -149,7 +145,7 @@
       },
 
       isCorrect(letter: any): boolean {
-        if(this.correctHit) {
+        if (this.correctHit) {
           return true;
         }
         return false;
@@ -159,8 +155,9 @@
         //get pressed letter
         const target = event.key.toUpperCase();
         //find the active letter by searching object letterData values for true
-        const activeLetterHit = this.letterData.find(obj => obj[target] === true)
-        if(activeLetterHit && !this.correctHit) {
+        const activeLetterHit = this.letterData.find(obj => obj[target] === true);
+
+        if (activeLetterHit && !this.correctHit) {
           this.correctHit = true;
           this.points += this.level;
         } else {
@@ -170,71 +167,66 @@
         }
       },
 
-      async setUserHighscore() {
+      async setUserHighscore(): Promise<any> {
         /* Check highscore values from highscore vuex state and compare to this session.
            Add user id from users vuex state. */
-           console.log(this.singleHighscore);
-        if(this.singleHighscore.points < this.points) {
+        console.log(this.singleHighscore);
+
+        if (this.singleHighscore.points < this.points) {
           this.updateHighscore({userId: this.user.id, points: this.points, level: this.level});
           console.log("Updating highscore");
         } else {
           console.log("Not a new highscore");
           return;
         }
-
       },
 
-      setLocalStorageHighscore() {
-
+      setLocalStorageHighscore(): void {
         console.log("Not logged in. Comparing highscore...");
         let localStorageLevel = localStorage.getItem("level");
         let localStoragePoints = localStorage.getItem("points");
 
-        if(localStorageLevel === null){
+        if (localStorageLevel === null) {
           localStorageLevel = "0";
         }
 
-        if(localStoragePoints === null){
+        if (localStoragePoints === null) {
           localStoragePoints = "0";
         }
 
-        if(parseInt(localStoragePoints) < this.points){
+        if (parseInt(localStoragePoints) < this.points) {
           console.log("Setting new highscore...")
           localStorage.setItem("level", this.level.toString());
           localStorage.setItem("points", this.points.toString());
         } else {
           console.log("No new highscore.")
         }
-
       },
 
       // Set highscore and show NextLevel.vue
       gameEnd(timeIsOut: boolean): void {
-
         console.log("Session ended.");
 
-        if(!this.user.hasOwnProperty('id')) {
+        if (!this.user.hasOwnProperty('id')) {
           this.setLocalStorageHighscore();
         } else {
           this.setUserHighscore();
         }
-        if(timeIsOut) this.gameFailed = true;
+        if (timeIsOut) this.gameFailed = true;
         this.nextLevel = true;
-
       },
 
       // Function run from NextLevel.vue
       setNextLevel(latestPoints: any) {
         this.nextLevel = false;
-        this.level++
+        this.level++;
         this.points = latestPoints;
       }
-
     },
 
     computed: mapGetters(['user', 'singleHighscore']),
 
-    created(): any {
+    created(): void {
       // Make letters to object to get access to boolean for Vue DOM manipulation
       this.makeFalsy();
       this.fetchHighscore(this.user.id);
@@ -245,9 +237,7 @@
     mounted(): void {
       // Increase pace by 110ms on making letter active based on level
       this.interval = setInterval(() => { this.makeActive(); }, 2000 - (this.level * 110));
-
     }
-    
   })
 </script>
 
@@ -261,6 +251,7 @@
   justify-content: center;
   width: 80vw;
   margin: 0 auto;
+
   @media (min-width: 768px) and (max-width: 1024px) {
     width: 100vw;
     user-select: initial;
@@ -333,7 +324,6 @@
   }
   .ship-container {
     width: 100px;
-
   }
 
   .ship-shot-container {
@@ -361,8 +351,7 @@
     transition: all 0.1s ease;
     display: none;
     background-color: pink;
-}
-
+  }
 }
 
 </style>
