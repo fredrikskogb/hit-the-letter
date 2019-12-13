@@ -111,8 +111,9 @@
       },
 
       setPos(element: HTMLElement, index: number, ship: Vue): void {  
-        this.pos = (element[index].getBoundingClientRect().left +
-        (ship.$el.getBoundingClientRect().width * 0.5));
+        const leftOffset = (element[index].getBoundingClientRect().width / 2)
+          - (ship.$el.getBoundingClientRect().width / 2);
+        this.pos = element[index].getBoundingClientRect().left + leftOffset;
       },
 
 
