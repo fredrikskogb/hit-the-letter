@@ -15,7 +15,7 @@
         <PlayingFieldLetter :letter="Object.keys(letter)[0]" />
       </div>
       <div class="information-container">
-        <p class="timer">Time left: <Countdown :startingTime="10" v-on:time-is-out="gameEnd(true)"/></p>
+        <p class="timer">Time left: <Countdown :startingTime="60" v-on:time-is-out="gameEnd(true)"/></p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
@@ -215,7 +215,7 @@
   }
   
   .letter-container {
-    background-color: rgba(83, 84, 136, 0.65);
+    background-color: @card-background-color;
     border-radius: @card-border-radius;
     flex-basis: 15%;
     height: 50px;

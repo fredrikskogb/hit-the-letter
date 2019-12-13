@@ -1,4 +1,4 @@
-import Repository from "../repository";
+import Repository from "../initialize";
 
 const resource = '/user';
 
