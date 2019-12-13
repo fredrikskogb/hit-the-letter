@@ -119,7 +119,7 @@
       getDistanceToLetter(elementPointer: HTMLElement, index: number, shipPointer: Vue) {
         const ship = {
           x: shipPointer.$el.getBoundingClientRect().left,
-          y: shipPointer.$el.getBoundingClientRect().left,
+          y: shipPointer.$el.getBoundingClientRect().top,
           height: shipPointer.$el.getBoundingClientRect().height
         };
         const element = {
