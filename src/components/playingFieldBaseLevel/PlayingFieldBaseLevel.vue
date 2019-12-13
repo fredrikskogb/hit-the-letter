@@ -23,10 +23,8 @@
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
-      <div class="ship-shot-container" :style="laserStyles">
-        <transition name="laser" mode="out-in">
-          <div :class="{laser : correctHit}" :key="correctHit"></div>
-        </transition>
+      <div class="ship-shot-container" :style="laserStyles" v-if="correctHit">
+        <div :class="{laser : correctHitAnimation}"></div>
       </div>
       <transition name="slide-fade" mode="out-in">
         <PlayerShip class="ship-container"
@@ -64,6 +62,7 @@
         nextLevel: false,
         gameFailed: false,
         correctHit: false,
+        correctHitAnimation: false,
         pos: "",
         laserStyles: {}
       }
@@ -151,6 +150,22 @@
         }
         return false;
       },
+      correctHitCheck() {
+
+        if(this.correctHitAnimation === true) {
+
+          setTimeout(() => {
+            this.correctHitAnimation = false;
+            return false;
+          }, 200)
+
+        }
+
+        this.correctHitAnimation = true;
+        this.correctHitCheck();
+        return true;
+
+      },
 
       handleKeypress(event: KeyboardEvent) {
         //get pressed letter
@@ -161,6 +176,7 @@
         if (activeLetterHit && !this.correctHit) {
           this.correctHit = true;
           this.points += this.level;
+          this.correctHitCheck();
         } else {
           this.gameFailed = true;
           const timeIsOut = false;
@@ -259,7 +275,7 @@
   }
   
   .letter-container {
-    background-color: @card-background-color;
+    background-color: @letter-background-color;
     border-radius: @card-border-radius;
     flex-basis: 15%;
     height: 50px;
@@ -338,21 +354,23 @@
     background-image: url("../../assets/images/laser.png");
     background-position: center;
     background-size: 20px 5px;
-    opacity: 0.5;
+    opacity: 1;
     margin: 0 auto;
     width: 27px;
     height: inherit;
+    animation-name: laserAnimation;
+    animation-duration: 0.1s; 
   }
 
-  .laser-enter-active {
-    transition: all 0.2s ease;
-    background-color: lightgreen    
+  @keyframes laserAnimation { 
+    0% {
+      background-color: rgb(210, 86, 214);
+    }
+    100% {
+      background-color: none;
+    } 
   }
-  .laser-leave-active {
-    transition: all 0.1s ease;
-    display: none;
-    background-color: pink;
-  }
+
 }
 
 </style>
