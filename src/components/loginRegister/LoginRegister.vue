@@ -9,7 +9,7 @@
 		
 		<form class="login_register_form login-register-fields" v-if="openFields">
 
-			<label for="Email">Email</label>
+			<label for="email">Email</label>
 			<input v-model="newUser.email" name="email" type="text" id="email" class="login_register_input" required>
 
 			<label for="password">Password</label>
@@ -116,6 +116,10 @@ export default Vue.extend({
 				text-decoration: none;
 			}
 		}
+	}
+
+	.fail-register {
+		border-color: salmon;
 	}
 
 	.login_register_form{
