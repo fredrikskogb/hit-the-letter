@@ -139,7 +139,7 @@
 		left: 50%;
 		right: 50%;
 		transform: translate(-50%, -50%);
-		box-shadow: 0px 4px 100px 0px rgb(133, 118, 106), inset 0px 23px 89px 18px rgba(141, 141, 141, 0.37);
+		box-shadow: 0px 4px 30px 0px rgba(255, 255, 255, 0.85), inset 0px 23px 89px 18px rgba(255, 255, 255, 0.247);
 		background-image: url("../../assets/images/ground.jpg");
 		background-size: 100vw 70%;
 		background-position: center;

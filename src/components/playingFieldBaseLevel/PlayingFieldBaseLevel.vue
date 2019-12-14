@@ -388,11 +388,11 @@
       width: 29px;
     }
     35% {
-      background-color: rgba(107, 214, 86, 0.95);
+      background-color: rgba(210, 86, 214, 0.95);
       width: 22px;
     }
     50% {
-      background-color: rgba(86, 214, 86, 0.85);
+      background-color: rgba(193, 86, 214, 0.85);
       width: 19px;
     }
     60% {

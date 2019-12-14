@@ -6,15 +6,26 @@
 			</p>
 			<router-link to="/customization-menu">Play without logging in</router-link>
 		</div>
-		<div class="login-register-fields" v-if="openFields">
-			<input v-model="newUser.email" name="email" type="text" />
-			<input v-model="newUser.username" name="username" type="text" />
-			<input v-model="newUser.password" name="password" type="password" />
-			<button @click="verifyLogin">Log in</button>
-			<button @click="verifySignup">Sign up</button>
-			<button @click="toggleFields">Back</button>
-		</div>
+		
+		<form class="login_register_form login-register-fields" v-if="openFields">
+
+			<label for="Email">Email</label>
+			<input v-model="newUser.email" name="email" type="text" id="email" class="login_register_input" required>
+
+			<label for="password">Password</label>
+			<input v-model="newUser.password" name="password" type="password" id="password" class="login_register_input" required>
+
+			<label for="username">Username</label>
+			<input v-model="newUser.username" name="username" type="text" id="username" class="login_register_input" required>
+
+			<button @click="verifyLogin" class="login_register_submit">Log in</button>
+			<button @click="verifySignup" class="login_register_submit">Sign up</button>
+			<button @click="toggleFields" class="login_register_submit">Back</button>
+
+    </form>
+
 	</div>
+				
 </template>
 
 <script lang="ts">
@@ -99,5 +110,61 @@ export default Vue.extend({
 			}
 		}
 	}
+
+	.login_register_form{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1.25rem;
+    padding: 1.25em 3em 1.25em 3em;
+    border-radius: 5px;
+    min-width: 400px;
+	}
+	.login_register_form label {
+		margin-bottom: 5px;
+	}
+  .login_register_form input{
+    border: 1px solid #eee;
+    border: 3px solid;
+    border-radius: 5px;
+    padding: 0.5em;
+    transition: border-color .5s ease-out;
+
+  }
+  .login_register_form input:optional {
+    border-color: #999;
+  }
+  .login_register_form input:required {
+    border-color: palegreen;
+  }
+  .login_register_form input:invalid {
+    border-color: salmon;
+  }
+
+.login_register_form input {
+    margin-bottom: 1em;
+}
+
+.login_register_submit {
+    border: none;
+    cursor: pointer;
+    padding: .6em 1.4em .5em .8em;
+    border: 1px solid #aaa;
+    margin:0 0.2em 0.2em 0;
+    border-radius: .5em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-weight:300;
+    background-color:#FFFFFF;
+    text-align:center;
+    transition: all 0.15s;   
+    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+    font-size: 1em;
+}
+
+.login_register_submit:hover{
+    text-shadow: 0 0 2em rgba(255,255,255,1);
+    border-color: palegreen;
+    background-color: rgba(212, 252, 212, 0.281);
+}
 
 </style>

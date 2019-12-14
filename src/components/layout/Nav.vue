@@ -25,6 +25,7 @@
 </script>
 
 <style lang="less" scoped>
+@import url("../../styles/main.less");
 #nav {
 	position: absolute;
 	width: 100vw;
@@ -35,6 +36,9 @@
 		justify-content: center;
 		* {
 			margin: 5px;
+			span {
+				color: rgba(106, 107, 155, 0.65);
+			}
 		}
 	}
 	nav {
