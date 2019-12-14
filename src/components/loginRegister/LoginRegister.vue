@@ -67,11 +67,11 @@ export default Vue.extend({
 		toggleFields() {
 			this.openFields = !this.openFields;
 		},
-		async verifyLogin() {
+		async verifyLogin(event: Event) {
 			await this.loginUser({email: this.newUser.email, password: this.newUser.password});
 			if(this.user.hasOwnProperty('id')) this.$router.push({ path: '/customization-menu' });
 		},
-		async verifySignup() {
+		async verifySignup(event: Event) {
 			await this.registerUser(this.newUser);
 			this.addHighscore({userId: this.user.id, points: 0, level: 0});
 			if(this.user.hasOwnProperty('id')) this.$router.push({ path: '/customization-menu' });
