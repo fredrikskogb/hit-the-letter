@@ -18,9 +18,11 @@
 			<label for="username">Username</label>
 			<input v-model="newUser.username" name="username" type="text" id="username" class="login_register_input" required>
 
-			<button @click="verifyLogin" class="login_register_submit">Log in</button>
-			<button @click="verifySignup" class="login_register_submit">Sign up</button>
-			<button @click="toggleFields" class="login_register_submit">Back</button>
+			<div class="button-container">
+				<button @click="verifyLogin" class="login_register_submit">Log in</button>
+				<button @click="verifySignup" class="login_register_submit middle-button">Sign up</button>
+				<button @click="toggleFields" class="login_register_submit">Back</button>
+			</div>
 
     </form>
 
@@ -89,6 +91,11 @@ export default Vue.extend({
 
 	@import url('../../styles/main.less');
 
+	input[type=text], input[type=email], button {
+		font-family: 'Tomorrow', sans-serif;
+		font-weight: bold; 
+	}
+
 	.login-register-wrapper {
 		.hv-centering;
 		.card;
@@ -144,27 +151,39 @@ export default Vue.extend({
     margin-bottom: 1em;
 }
 
-.login_register_submit {
-    border: none;
-    cursor: pointer;
-    padding: .6em 1.4em .5em .8em;
-    border: 1px solid #aaa;
-    margin:0 0.2em 0.2em 0;
-    border-radius: .5em;
-    box-sizing: border-box;
-    text-decoration:none;
-    font-weight:300;
-    background-color:#FFFFFF;
-    text-align:center;
-    transition: all 0.15s;   
-    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
-    font-size: 1em;
+.button-container {
+
+	display: flex;
+	.middle-button {
+		margin: 0 5px;
+	}
+
+	.login_register_submit {
+		flex: 1;
+			border: none;
+			cursor: pointer;
+			padding: .4em 1.3em .4em .7em;
+			border: 1px solid #aaa;
+			margin-top:0.5em;
+			border-radius: @card-border-radius;
+			box-sizing: border-box;
+			text-decoration:none;
+			font-weight:300;
+			background-color:#FFFFFF;
+			text-align:center;
+			transition: all 0.15s;   
+			box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+			font-size: 1em;
+	}
+
+	.login_register_submit:hover{
+			text-shadow: 0 0 2em rgba(255,255,255,1);
+			border-color: palegreen;
+			background-color: rgba(212, 252, 212, 0.281);
+	}
+
 }
 
-.login_register_submit:hover{
-    text-shadow: 0 0 2em rgba(255,255,255,1);
-    border-color: palegreen;
-    background-color: rgba(212, 252, 212, 0.281);
-}
+
 
 </style>
