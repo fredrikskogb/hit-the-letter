@@ -8,7 +8,7 @@
     <article>
 
       <h1>Hit the letter<br></h1>
-      <p>Is a game devloped for people to have a fun experience to get better 
+      <p>Is a game developed for people to have a fun experience to get better 
         at typing on a computer keyboard. You will have 60 seconds each level
          to hit the letters and the pace will increase with each level. You will start out with special
          abilities such as extra lives and bombs. These will also be obtainable while playing.<br></p>
