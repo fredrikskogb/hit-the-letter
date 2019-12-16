@@ -10,19 +10,26 @@
 
 	import Vue from 'vue'
 	import BackgroundImage from '@/components/layout/BackgroundImage.vue';
-	import { mapGetters } from 'vuex';
+	import { mapActions } from 'vuex';
+	import {IUserSecure} from './types/index';
 
 	/* To let TypeScript properly infer types inside Vue component options,
 		you need to define components with Vue.component or Vue.extend. */
 	export default Vue.extend({
-		data() {
-			return {
-				
-			}
-		},
 		components: {
 			BackgroundImage 
 		},
+		methods: {
+			...mapActions(['localStorageLogin'])
+		},
+		created() {
+			if(localStorage.getItem("user") !== null) {
+				let user = localStorage.getItem("user") as string;
+				user = JSON.parse(window.atob(user));
+				console.log(user);
+				this.localStorageLogin(user);
+			}
+		}
 	})
 
 </script>

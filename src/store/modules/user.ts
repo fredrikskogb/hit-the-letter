@@ -1,4 +1,4 @@
-import { IUser } from '@/types/index';
+import { IUser, IUserSecure } from '@/types/index';
 import axios from 'axios';
 import CONFIG_URL from '../../../config-url';
 
@@ -41,11 +41,20 @@ const actions = {
   resetUserState ({commit} : {commit: any}) {
     commit('resetUser');
   },
+  localStorageLogin({commit}: {commit: any}, user: IUserSecure) {
+    commit('setUser', user);
+  }
 };
 
 const mutations = {
-    setUser: (state: { user: any; }, user: any) => (state.user = user),
-    resetUser: (state: { user: any; }) => (state.user = {}),
+    setUser: (state: { user: any; }, user: any) => {
+        state.user = user,
+        localStorage.setItem("user", window.btoa(JSON.stringify(user)))
+    },
+    resetUser: (state: { user: any; }) => {
+        state.user = {},
+        localStorage.removeItem("user");
+    },
 };
 
 export default  {

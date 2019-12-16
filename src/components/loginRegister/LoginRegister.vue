@@ -7,7 +7,10 @@
 			<router-link to="/customization-menu">Play without logging in</router-link>
 		</div>
 		
-		<form class="login_register_form login-register-fields" v-if="openFields">
+		<div class="login_register_form login-register-fields" v-if="openFields">
+
+			<label for="username">Username</label>
+			<input v-model="newUser.username" name="username" type="text" id="username" class="login_register_input" required>
 
 			<label for="email">Email</label>
 			<input v-model="newUser.email" name="email" type="text" id="email" class="login_register_input" required>
@@ -15,16 +18,13 @@
 			<label for="password">Password</label>
 			<input v-model="newUser.password" name="password" type="password" id="password" class="login_register_input" required>
 
-			<label for="username">Username</label>
-			<input v-model="newUser.username" name="username" type="text" id="username" class="login_register_input" required>
-
 			<div class="button-container">
 				<button @click="verifyLogin" class="login_register_submit">Log in</button>
 				<button @click="verifySignup" class="login_register_submit middle-button">Sign up</button>
 				<button @click="toggleFields" class="login_register_submit">Back</button>
 			</div>
 
-    </form>
+    </div>
 
 	</div>
 				
@@ -46,7 +46,7 @@ export default Vue.extend({
 				email: "",
 				username: "",
 				password: ""
-			}
+			} as any
 			
     }
   },
@@ -63,24 +63,26 @@ export default Vue.extend({
 	
 	// Declare methods/functions of this component inside this block
 	methods: {
+
 		...mapActions(['loginUser', 'registerUser', 'addHighscore']),
+
 		toggleFields() {
 			this.openFields = !this.openFields;
 		},
+
 		async verifyLogin(event: Event) {
+			event.stopPropagation();
 			await this.loginUser({email: this.newUser.email, password: this.newUser.password});
 			if(this.user.hasOwnProperty('id')) this.$router.push({ path: '/customization-menu' });
 		},
+
 		async verifySignup(event: Event) {
+			event.stopPropagation();
 			await this.registerUser(this.newUser);
 			this.addHighscore({userId: this.user.id, points: 0, level: 0});
 			if(this.user.hasOwnProperty('id')) this.$router.push({ path: '/customization-menu' });
 		}
-	},
-	
-	// Lifecycle hook, component has been created
-  created(): void {
-		console.log('loginRegister component created');
+
 	}
 	
 })
