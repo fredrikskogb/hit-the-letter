@@ -255,6 +255,10 @@
     mounted(): void {
       // Increase pace by 110ms on making letter active based on level
       this.interval = setInterval(() => { this.makeActive(); }, 2000 - (this.level * 110));
+    },
+
+    beforeDestroy() {
+      clearInterval(this.interval);
     }
   })
 </script>
