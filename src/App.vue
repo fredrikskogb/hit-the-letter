@@ -26,7 +26,6 @@
 			if(localStorage.getItem("user") !== null) {
 				let user = localStorage.getItem("user") as string;
 				user = JSON.parse(window.atob(user));
-				console.log(user);
 				this.localStorageLogin(user);
 			}
 		}

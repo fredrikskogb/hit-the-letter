@@ -10,5 +10,9 @@ export default {
 
   getAllHighscores() {
     return Repository.get(`${resource}/getAllHighscores.php`);
+  },
+
+  getUserHighscore(userId: number) {
+    return Repository.get(`${resource}/getHighscore.php?userId=${userId}`);
   }
 }
