@@ -23,10 +23,8 @@
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
       </div>
-      <div class="ship-shot-container" :style="laserStyles">
-        <transition name="laser" mode="out-in">
-          <div :class="{laser : correctHit}" :key="correctHit"></div>
-        </transition>
+      <div class="ship-shot-container" :style="laserStyles" v-if="correctHit">
+        <div :class="{laser : correctHitAnimation}"></div>
       </div>
       <transition name="slide-fade" mode="out-in">
         <PlayerShip class="ship-container"
@@ -64,6 +62,7 @@
         nextLevel: false,
         gameFailed: false,
         correctHit: false,
+        correctHitAnimation: false,
         pos: "",
         laserStyles: {}
       }
@@ -151,6 +150,22 @@
         }
         return false;
       },
+      correctHitCheck() {
+
+        if(this.correctHitAnimation === true) {
+
+          setTimeout(() => {
+            this.correctHitAnimation = false;
+            return false;
+          }, 250)
+
+        }
+
+        this.correctHitAnimation = true;
+        this.correctHitCheck();
+        return true;
+
+      },
 
       handleKeypress(event: KeyboardEvent) {
         //get pressed letter
@@ -161,6 +176,7 @@
         if (activeLetterHit && !this.correctHit) {
           this.correctHit = true;
           this.points += this.level;
+          this.correctHitCheck();
         } else {
           this.gameFailed = true;
           const timeIsOut = false;
@@ -215,6 +231,7 @@
         }
         if (timeIsOut) this.gameFailed = true;
         this.nextLevel = true;
+        clearInterval(this.interval);
       },
 
       // Function run from NextLevel.vue
@@ -259,7 +276,7 @@
   }
   
   .letter-container {
-    background-color: @card-background-color;
+    background-color: @letter-background-color;
     border-radius: @card-border-radius;
     flex-basis: 15%;
     height: 50px;
@@ -338,21 +355,68 @@
     background-image: url("../../assets/images/laser.png");
     background-position: center;
     background-size: 20px 5px;
-    opacity: 0.5;
+    opacity: 1;
     margin: 0 auto;
     width: 27px;
     height: inherit;
+    animation-name: laserAnimation;
+    animation-duration: 0.15s; 
   }
 
-  .laser-enter-active {
-    transition: all 0.2s ease;
-    background-color: lightgreen    
+  @keyframes laserAnimation { 
+    0% {
+      width: 0px;
+    }
+    5% {
+      background-color: rgba(86, 205, 214, 0.507);
+      width: 7px;
+    }
+    10% {
+      background-color: rgb(90, 214, 86);
+      width: 12px;
+    }
+    15% {
+      background-color: rgba(112, 214, 86, 0.9);
+      width: 25px;
+    }
+    20% {
+      background-color: rgb(210, 86, 214, 0.8);
+      width: 10px;
+    }
+    25% {
+      background-color: rgb(210, 86, 214, 1);
+      width: 29px;
+    }
+    35% {
+      background-color: rgba(210, 86, 214, 0.95);
+      width: 22px;
+    }
+    50% {
+      background-color: rgba(193, 86, 214, 0.85);
+      width: 19px;
+    }
+    60% {
+      background-color: rgb(210, 86, 214, 0.75);
+      width: 17px;
+    }
+    70% {
+      background-color: rgb(210, 86, 214, 0.60);
+      width: 15px;
+    }
+    80% {
+      background-color: rgb(210, 86, 214, 0.20);
+      width: 12px;
+    }
+    90% {
+      background-color: rgb(210, 86, 214, 0.1);
+      width: 7px;
+    }
+    
+    100% {
+      background-color: none;
+    } 
   }
-  .laser-leave-active {
-    transition: all 0.1s ease;
-    display: none;
-    background-color: pink;
-  }
+
 }
 
 </style>
