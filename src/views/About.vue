@@ -4,6 +4,7 @@
 
     <Nav>
     </Nav>
+    <LoggedIn/>
 
     <article>
 
@@ -26,11 +27,13 @@ import Vue from 'vue'
 import LoginRegister from '@/components/loginRegister/LoginRegister.vue';
 import Nav from '@/components/layout/Nav.vue';
 import { IUser } from '@/types/index.ts';
+import LoggedIn from '@/components/loggedIn/LoggedIn.vue';
 
 export default Vue.extend ({
 
   components: {
-    Nav
+    Nav,
+    LoggedIn
   },
   
 })
@@ -42,8 +45,10 @@ export default Vue.extend ({
   @import url('../styles/main.less');
   article {
     max-width: 400px;
-    position: absolute;
-    margin: 20px 10px;
+    .hv-centering;
+    box-shadow: @text-box-shadow;
+    text-align: center;
+    padding: 10px;
     h1, p {
       .text-styling;
       box-shadow: @text-box-shadow;
