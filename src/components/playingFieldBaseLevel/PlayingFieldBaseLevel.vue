@@ -9,7 +9,8 @@
         :key="Object.keys(letter)[0]" 
         :class="{
           active: isActive(letter),
-          correct: isCorrect(letter)
+          correct: isCorrect(letter),
+          bombed: isBombed(letter)
         }">
 
         <PlayingFieldLetter :letter="Object.keys(letter)[0]" />
@@ -53,6 +54,7 @@
   import PlayerShip from '@/components/playerShip/PlayerShip.vue';
   import NextLevel from "@/components/nextLevel/NextLevel.vue";
   import {mapGetters, mapActions} from 'vuex';
+  import {ILetter} from '@/types/index';
 
   export default Vue.extend({
 
@@ -90,15 +92,28 @@
 
       ...mapActions(["updateHighscore", "fetchHighscore"]),
 
-      makeFalsy(): void {
+      initLetters(): void {
         // Make letters to object to get access to boolean for Vue DOM manipulation
         this.letterData = this.letters.map((letter: string) => {
 
           return {
-            [letter]: false
+            [letter]: {
+              active: false,
+              bombed: false
+            }
           }
 
         })
+      },
+
+      makeFalsy(): void {
+        for (let i = 0; i < this.letterData.length; i++) {
+          let letter: any = this.letterData[i];
+          let key = Object.keys(letter)[0];
+          letter[key].active = false;
+        }
+        this.letterData = this.letterData.filter((obj: any) => obj[Object.keys(obj)[0]].bombed === false);
+        console.log(this.letterData);
       },
 
       makeActive(): void {
@@ -109,13 +124,13 @@
         let letter: any = this.letterData[Math.floor(Math.random() * this.letterData.length)];
         // Make letter active
         let key = Object.keys(letter)[0];
-        letter[key] = true;
-      
+        letter[key].active = true;
+        console.log()
       },
 
       isActive(letter: any): boolean {
         // Check if false/true to give "active" as class
-        return letter[Object.keys(letter)[0]];
+        return letter[Object.keys(letter)[0]].active;
       },
 
       isCorrect(letter: any): boolean {
@@ -125,11 +140,23 @@
         return false;
       },
 
+      isBombed(letter: any) {
+        return letter[Object.keys(letter)[0]].bombed;
+      },
+
       handleKeypress(event: KeyboardEvent) {
         //get pressed letter
         const target = event.key.toUpperCase();
         //find the active letter by searching object letterData values for true
-        const activeLetterHit = this.letterData.find(obj => obj[target] === true)
+        let activeLetterHit = false;
+        for(let i = 0; i < this.letterData.length; i++) {
+          const letter = this.letterData[i];
+
+          if (Object.keys(letter)[0] === target
+            && (letter[target] as ILetter).active) {
+            activeLetterHit = (letter[target] as ILetter).active;
+          }
+        }
         if(event.key === " ") {
           this.useBomb();
         } else if(activeLetterHit && !this.correctHit) {
@@ -148,7 +175,11 @@
       },
 
       useBomb() {
-        //TODO: implement bomb functionality
+        for (let i = 0; i < this.letterData.length * 0.4; i++) {
+          const letter: any = this.letterData[Math.floor(Math.random() * this.letterData.length)];
+          let key = Object.keys(letter)[0];
+          letter[key].bombed = true;
+        }
         this.inventory.bombs--;
       },
 
@@ -232,7 +263,7 @@
 
     created(): any {
       // Make letters to object to get access to boolean for Vue DOM manipulation
-      this.makeFalsy();
+      this.initLetters();
       this.fetchHighscore(this.user.id);
       window.addEventListener("keydown", this.handleKeypress);
     },
@@ -286,6 +317,10 @@
     &.correct {
       background-color: rgb(18, 223, 18);
     }
+  }
+
+  .bombed {
+    background-color: rgba(0, 0, 0, 1);
   }
 
   .incorrect {
