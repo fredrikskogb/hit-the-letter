@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div v-if="!nextLevel" class="letters-container">
+    <div v-if="!nextLevel" class="playing-field">
 
       <div class="letter-container" 
         v-for="letter in letterData" 
@@ -9,8 +9,9 @@
         :key="Object.keys(letter)[0]" 
         :class="{
           active: isActive(letter),
-          correct: isCorrect(letter)
-        }"
+          correct: isCorrect(letter),
+          bombed: isBombed(letter)
+        }">
         :ref=letter
         >
 
@@ -22,6 +23,20 @@
         </p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
+      </div>
+      <div class="player-inventory">
+        <div class="player-heart-container">
+          <div v-for="(heart, index) in inventory.hearts"
+            :id="'heart' + index"
+            class="player-heart"
+            :key="'heart' + index" />
+        </div>
+        <div class="player-bomb-container">
+          <div v-for="(bomb, index) in inventory.bombs"
+            :id="'bomb' + index"
+            class="player-bomb"
+            :key="'bomb' + index" />
+        </div>
       </div>
       <div class="ship-shot-container" :style="laserStyles" v-if="correctHit">
         <div :class="{laser : correctHitAnimation}"></div>
@@ -47,7 +62,8 @@
   import Countdown from '@/components/countdown/Countdown.vue';
   import PlayerShip from '@/components/playerShip/PlayerShip.vue';
   import NextLevel from "@/components/nextLevel/NextLevel.vue";
-  import { mapGetters, mapActions } from 'vuex';
+  import {mapGetters, mapActions} from 'vuex';
+  import {ILetter} from '@/types/index';
 
   export default Vue.extend({
 
@@ -55,6 +71,7 @@
 
     data() {
       return {
+        timeLeft: 60,
         interval: 0,
         level: 1,
         points: 0,
@@ -62,6 +79,10 @@
         nextLevel: false,
         gameFailed: false,
         correctHit: false,
+        inventory: {
+          hearts: 3,
+          bombs: 3
+        }
         correctHitAnimation: false,
         pos: "",
         laserStyles: {}
@@ -81,16 +102,30 @@
 
       ...mapActions(["updateHighscore", "fetchHighscore"]),
 
-      makeFalsy(): void {
+      initLetters(): void {
         // Make letters to object to get access to boolean for Vue DOM manipulation
         this.letterData = this.letters.map((letter: string) => {
           return {
-            [letter]: false
+            [letter]: {
+              active: false,
+              bombed: false
+            }
           }
         })
       },
 
-      makeActive() {
+      makeFalsy(): void {
+        for (let i = 0; i < this.letterData.length; i++) {
+          let letter: any = this.letterData[i];
+          let key = Object.keys(letter)[0];
+          letter[key].active = false;
+        }
+        this.letterData = this.letterData.filter((obj: any) => obj[Object.keys(obj)[0]].bombed === false);
+        console.log(this.letterData);
+      },
+
+      makeActive(): void {
+
         // reset values
         this.makeFalsy();
         this.correctHit = false;
@@ -99,7 +134,7 @@
         let activeLetter: any = this.letterData[index];
         // Make letter active
         let key = Object.keys(activeLetter)[0];
-        activeLetter[key] = true;
+        activeLetter[key].active = true;
 
         const letterElement = this.$refs[activeLetter] as HTMLElement;
         const ship = this.$refs["ship"] as Vue.Component;
@@ -141,7 +176,7 @@
 
       isActive(letter: any): boolean {
         // Check if false/true to give "active" as class
-        return letter[Object.keys(letter)[0]];
+        return letter[Object.keys(letter)[0]].active;
       },
 
       isCorrect(letter: any): boolean {
@@ -167,20 +202,60 @@
 
       },
 
+      isBombed(letter: any) {
+        return letter[Object.keys(letter)[0]].bombed;
+      },
+
       handleKeypress(event: KeyboardEvent) {
         //get pressed letter
         const target = event.key.toUpperCase();
-        //find the active letter by searching object letterData values for true
-        const activeLetterHit = this.letterData.find(obj => obj[target] === true);
+        let activeLetterHit = false;
+        for(let i = 0; i < this.letterData.length; i++) {
+          const letter = this.letterData[i];
 
-        if (activeLetterHit && !this.correctHit) {
+          if (Object.keys(letter)[0] === target
+            && (letter[target] as ILetter).active) {
+            activeLetterHit = (letter[target] as ILetter).active;
+          }
+        }
+        if(event.key === " ") {
+          this.useBomb();
+        } else if(activeLetterHit && !this.correctHit) {
           this.correctHit = true;
           this.points += this.level;
           this.correctHitCheck();
+          this.getLoot();
         } else {
-          this.gameFailed = true;
-          const timeIsOut = false;
-          this.gameEnd(timeIsOut);
+          if(this.inventory.hearts > 0) {
+            this.inventory.hearts--;
+          } else {
+            this.gameFailed = true;
+            const timeIsOut = false;
+            this.gameEnd(timeIsOut);
+          }
+        }
+      },
+
+      useBomb() {
+        for (let i = 0; i < this.letterData.length * 0.4; i++) {
+          const letter: any = this.letterData[Math.floor(Math.random() * this.letterData.length)];
+          let key = Object.keys(letter)[0];
+          letter[key].bombed = true;
+        }
+        this.inventory.bombs--;
+      },
+
+      getLoot() {
+        const roll = Math.ceil(Math.random() * 100);
+
+        if(roll === 100) {
+          this.timeLeft += 10;
+        } else if(roll >= 96) {
+          this.inventory.hearts++;
+        } else if(roll >= 92) {
+          this.inventory.bombs++;
+        } else {
+          return;
         }
       },
 
@@ -246,7 +321,7 @@
 
     created(): void {
       // Make letters to object to get access to boolean for Vue DOM manipulation
-      this.makeFalsy();
+      this.initLetters();
       this.fetchHighscore(this.user.id);
       window.addEventListener("keydown", this.handleKeypress);
     },
@@ -266,7 +341,7 @@
 <style lang="less" scoped>
 @import url('../../styles/main.less');
 
-.letters-container {
+.playing-field {
   user-select: none;
   display: flex;
   flex-wrap: wrap;
@@ -304,6 +379,10 @@
     }
   }
 
+  .bombed {
+    background-color: rgba(0, 0, 0, 1);
+  }
+
   .incorrect {
     background-color: rgba(200, 50, 50, 0.8);
   }
@@ -318,6 +397,40 @@
     font-size: 1.1em;
   }
 
+  .player-inventory {
+    margin-top: 100px;
+    height: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .player-heart-container {
+      display: flex;
+      width: auto;
+
+      .player-heart {
+        background-image: url("../../assets/images/heart.png");
+        background-size: contain;
+        height: 36px;
+        width: 36px;
+        margin-right: 5px;
+      }
+    }
+
+    .player-bomb-container {
+      display: flex;
+      justify-content: flex-end;
+      width: auto;
+
+      .player-bomb {
+        background-image: url("../../assets/images/bomb.png");
+        background-size: contain;
+        height: 36px;
+        width: 36px;
+        margin-left: 5px;
+      }
+    }
+  }
   /*.teleport {
     animation: 0.2s linear;
 		animation-name: teleport; 
@@ -420,7 +533,6 @@
       background-color: none;
     } 
   }
-
 }
 
 </style>
