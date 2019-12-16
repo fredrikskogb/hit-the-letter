@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import PlayingField from '../views/PlayingField.vue';
 import Customization from "../views/Customization.vue";
+import Leaderboard from "../views/Leaderboard.vue";
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/customization-menu',
     name: 'customizationMenuView',
     component: Customization
+  },
+  {
+    path: '/leaderboard',
+    name: 'leaderboard',
+    component: Leaderboard
   },
   {
     path: '/about',

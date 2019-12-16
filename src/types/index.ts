@@ -5,6 +5,12 @@ export interface IUser {
     password: String
 }
 
+export interface IUserSecure {
+    id: number,
+    email: String,
+    username: String,
+}
+
 export interface IUserService {
     getAll(): any,
     loginUser(email: string, password: string): any,

@@ -1,9 +1,6 @@
 <template>
   <div class="customization-menu-wrapper">
-    <!-- TODO: Customization options -->
-    <button class="play-button">
-      <router-link to="/playing-field">Play</router-link>
-    </button>
+      <router-link to="/playing-field" class="play-button">Play</router-link>
   </div>
 </template>
 
@@ -20,13 +17,12 @@
 
   .customization-menu-wrapper {
     .hv-centering;
-    .card;
     .play-button {
-      a {
-        color: black;
-        text-decoration: none;
-        box-shadow: none;
-      }
+    .card;
+     
+    color: white;
+    text-decoration: none;
+    box-shadow: none;
     }
   }
 </style>

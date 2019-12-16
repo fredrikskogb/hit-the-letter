@@ -8,27 +8,27 @@
   import Vue from 'vue'
 
   export default Vue.extend({
-    
+    name: "playerShip",
+    props: ["dinstanceInBetween"]
   })
 </script>
 
 <style lang="less" scoped>
 .ufo-image {
-  width: inherit;
+  width: 110px;
   animation: sideways 3s linear infinite alternate;
 }
 div {
   position: absolute;
   margin: 0 auto;
-  bottom: 50px;
-  width: 350px;
+  bottom: 120px;
   animation: rotation 0.2s linear infinite alternate;
-box-shadow: 3px 140px 19px -96px rgba(0,0,0,0.75);
+  box-shadow: 3px 140px 19px -7px rgba(0,0,0,0.35);
 
 }
 @keyframes rotation { 
-  50% { -webkit-transform: rotate(2deg); transform:rotate(2deg); } 
-  100% { -webkit-transform: rotate(-2deg); transform:rotate(-2deg); } 
+  50% { -webkit-transform: rotate(1deg); transform:rotate(1deg); } 
+  100% { -webkit-transform: rotate(-1deg); transform:rotate(-1deg); } 
 }
 
 @keyframes sideways {
