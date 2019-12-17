@@ -11,7 +11,7 @@
           active: isActive(letter),
           correct: isCorrect(letter),
           bombed: isBombed(letter)
-        }">
+        }"
         :ref=letter
         >
 
@@ -82,7 +82,7 @@
         inventory: {
           hearts: 3,
           bombs: 3
-        }
+        },
         correctHitAnimation: false,
         pos: "",
         laserStyles: {}
