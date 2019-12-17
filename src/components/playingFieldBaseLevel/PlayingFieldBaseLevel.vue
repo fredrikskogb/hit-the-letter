@@ -82,7 +82,7 @@
         inventory: {
           hearts: 3,
           bombs: 3
-        }
+        },
         correctHitAnimation: false,
         pos: "",
         laserStyles: {}
