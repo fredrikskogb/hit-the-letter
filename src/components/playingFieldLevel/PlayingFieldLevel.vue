@@ -400,9 +400,10 @@
   }
 
   .player-inventory {
-    margin-top: 100px;
+    position: absolute;
+    bottom: 200px;
     height: 40px;
-    width: 100%;
+    width: 80%;
     display: flex;
     justify-content: space-between;
 
