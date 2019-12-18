@@ -1,6 +1,6 @@
 <template>
 <div>
-  <img src="../../assets/images/ufo.png" class="ufo-image"/>
+  <img :src="ship" class="ufo-image"/>
 </div>
 </template>
 
@@ -9,7 +9,11 @@
 
   export default Vue.extend({
     name: "playerShip",
-    props: ["dinstanceInBetween"]
+    data() {
+      return {
+        ship: require(`../../${localStorage.getItem("ship")}`)
+      }
+    }
   })
 </script>
 

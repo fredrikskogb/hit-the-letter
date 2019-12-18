@@ -28,6 +28,9 @@
 				user = JSON.parse(window.atob(user));
 				this.localStorageLogin(user);
 			}
+			if(localStorage.getItem("ship") === null) {
+				localStorage.setItem("ship", "ufo.png");
+			}
 		}
 	})
 
