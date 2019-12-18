@@ -19,7 +19,7 @@
       </div>
       <div class="information-container">
         <p class="timer">Time left: 
-          <Countdown :startingTime="startingTime" v-on:time-is-out="gameEnd(true)"/>
+          <Countdown :timeLeft="timeLeft" v-on:time-is-out="gameEnd(true)"/>
         </p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
@@ -72,6 +72,7 @@
     data() {
       return {
         startingTime: 60,
+        timeLeft: 0,
         interval: 0,
         level: 1,
         points: 0,
@@ -79,6 +80,8 @@
         nextLevel: false,
         gameFailed: false,
         correctHit: false,
+        hits: 0,
+        requiredHits: 10,
         inventory: {
           hearts: 3,
           bombs: 3
@@ -112,6 +115,8 @@
             }
           }
         })
+        this.hits = 0;
+        this.timeLeft = this.startingTime;
       },
 
       makeFalsy(): void {
@@ -186,20 +191,11 @@
         return false;
       },
       correctHitCheck() {
-
-        if(this.correctHitAnimation === true) {
-
-          setTimeout(() => {
-            this.correctHitAnimation = false;
-            return false;
-          }, 250)
-
-        }
-
         this.correctHitAnimation = true;
-        this.correctHitCheck();
-        return true;
 
+        setTimeout(() => {
+          this.correctHitAnimation = false;
+        }, 250)
       },
 
       isBombed(letter: any) {
@@ -223,8 +219,13 @@
         } else if(activeLetterHit && !this.correctHit) {
           this.correctHit = true;
           this.points += this.level;
+          this.hits++;
           this.correctHitCheck();
           this.getLoot();
+          if(this.hits === this.requiredHits) {
+            this.gameFailed = false;
+            this.gameEnd(false);
+          }
         } else {
           if(this.inventory.hearts > 0) {
             this.inventory.hearts--;
@@ -312,7 +313,10 @@
         this.nextLevel = false;
         this.level++;
         this.points = latestPoints;
-      }
+        this.initLetters();
+        this.requiredHits = this.requiredHits + this.level - 1;
+        this.interval = setInterval(() => { this.makeActive(); }, 2000 - (this.level * 80));
+      },
     },
 
     computed: mapGetters(['user', 'singleHighscore']),
@@ -327,7 +331,7 @@
     // Mounted lifecycle hook because we need to wait for DOM render
     mounted(): void {
       // Increase pace by 110ms on making letter active based on level
-      this.interval = setInterval(() => { this.makeActive(); }, 2000 - (this.level * 110));
+      this.interval = setInterval(() => { this.makeActive(); }, 2000 - (this.level * 80));
     },
 
     beforeDestroy() {

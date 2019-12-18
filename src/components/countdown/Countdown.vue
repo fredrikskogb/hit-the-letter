@@ -18,11 +18,11 @@
       }
     },
 
-    props: ['startingTime'],
+    props: ['timeLeft'],
 
     methods: {
       countdownFunction() {
-        this.timeRemaining = this.startingTime;
+        this.timeRemaining = this.timeLeft;
         this.countdown = setInterval(() => {
           this.timeRemaining--;
           if (this.timeRemaining <= 0) {
