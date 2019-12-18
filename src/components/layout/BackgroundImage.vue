@@ -33,8 +33,8 @@
 				return random > 1
 					? require("../../assets/images/mountain.png")
 					: require("../../assets/images/mountain2.png")
-			}
-		}
+			},
+		} 
 	})
 
 </script>

@@ -6,7 +6,8 @@
     <div class="ship-container">
       <img class="ship" :src="url">
       <div class="button-container">
-        <p class="button" @click="setShip">Select</p>
+        <p class="button" @click="setShip" v-if="!checkSelectedShip()">{{selected}}</p>
+        <p class="button" v-if="checkSelectedShip()">Selected</p>
       </div>
     </div>
     <div class="fas-container" @click="swipe">
@@ -27,12 +28,14 @@
           "ufo2.png"
         ],
         setShipIndex: 0,
-        url: require("../../assets/images/ufo.png")
+        url: require("../../assets/images/ufo.png"),
+        selectedShip: "",
+        selected: "Select"
       }
     },
     methods: {
       swipe(event: any) {
-
+        this.selected = "Select";
         this.url = require(`../../assets/images/${this.ships[1]}`)
         const left = this.$refs["left"] as HTMLDivElement;
         
@@ -40,26 +43,45 @@
           if(this.setShipIndex === 0){
             this.setShipIndex = this.ships.length - 1;
             this.url = require(`../../assets/images/${this.ships[this.setShipIndex]}`);
+            this.selectedShip = this.ships[this.setShipIndex];
           } else {
             this.setShipIndex--;
             this.url = require(`../../assets/images/${this.ships[this.setShipIndex]}`);
+            this.selectedShip = this.ships[this.setShipIndex];
           }
         } else {
           if(this.setShipIndex === this.ships.length - 1) {
             this.setShipIndex = 0;
             this.url = require(`../../assets/images/${this.ships[this.setShipIndex]}`);
+            this.selectedShip = this.ships[this.setShipIndex];
           } else {
             this.setShipIndex++;
             this.url = require(`../../assets/images/${this.ships[this.setShipIndex]}`);
+            this.selectedShip = this.ships[this.setShipIndex];
           }
         }
 
       },
 
-      setShip() {
+      setShip(event: any) {
+        this.selected = "selected";
         localStorage.setItem("ship", this.ships[this.setShipIndex]);
-      }
+      },
 
+      checkSelectedShip() {
+        if(localStorage.getItem("ship") === this.selectedShip){
+          return true
+        } else {
+          return false;
+        }
+      },
+
+
+    },
+    created() {
+        this.selectedShip = localStorage.getItem("ship") as string;
+        this.url = require(`../../assets/images/${this.selectedShip}`)
+        this.setShipIndex = this.ships.findIndex(ship => ship === this.selectedShip)
     }
     
   })

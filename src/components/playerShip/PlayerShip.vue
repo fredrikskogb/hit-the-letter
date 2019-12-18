@@ -1,6 +1,6 @@
 <template>
 <div>
-  <img :src="ship" class="ufo-image"/>
+  <img :src="getShipUrl()" class="ufo-image"/>
 </div>
 </template>
 
@@ -9,11 +9,21 @@
 
   export default Vue.extend({
     name: "playerShip",
-    data() {
-      return {
-        ship: require(`../../${localStorage.getItem("ship")}`)
+    
+    methods: {
+      getShipUrl(): any {
+        const shipFromLocalStorage = localStorage.getItem("ship");
+        
+        // Webpack causes this comparison to be used instead of using a variable
+        if(shipFromLocalStorage === "ufo.png") {
+          return require("../../assets/images/ufo.png");
+        } else if (shipFromLocalStorage === "ufo2.png") {
+          return require("../../assets/images/ufo2.png");
+        }
+        
       }
     }
+    
   })
 </script>
 
