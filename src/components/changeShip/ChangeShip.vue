@@ -25,7 +25,8 @@
       return {
         ships: [
           "ufo.png",
-          "ufo2.png"
+          "ufo2.png",
+          "ufo3.png"
         ],
         setShipIndex: 0,
         url: require("../../assets/images/ufo.png"),

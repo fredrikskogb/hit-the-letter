@@ -19,6 +19,8 @@
           return require("../../assets/images/ufo.png");
         } else if (shipFromLocalStorage === "ufo2.png") {
           return require("../../assets/images/ufo2.png");
+        } else if (shipFromLocalStorage === "ufo3.png") {
+          return require("../../assets/images/ufo3.png");
         }
         
       }
