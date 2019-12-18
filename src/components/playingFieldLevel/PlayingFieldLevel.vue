@@ -19,7 +19,7 @@
       </div>
       <div class="information-container">
         <p class="timer">Time left: 
-          <Countdown :startingTime="60" v-on:time-is-out="gameEnd(true)"/>
+          <Countdown :startingTime="startingTime" v-on:time-is-out="gameEnd(true)"/>
         </p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
@@ -67,11 +67,11 @@
 
   export default Vue.extend({
 
-    name: "playingFieldBaseLevel" as string,
+    name: "playingFieldLevel" as string,
 
     data() {
       return {
-        timeLeft: 60,
+        startingTime: 60,
         interval: 0,
         level: 1,
         points: 0,
@@ -137,21 +137,21 @@
         activeLetter[key].active = true;
 
         const letterElement = this.$refs[activeLetter] as HTMLElement;
-        const ship = this.$refs["ship"] as Vue.Component;
+        const ship = this.$refs["ship"] as Vue;
 
         this.setPos(letterElement, index, ship);
         this.getDistanceToLetter(letterElement, index, ship);
 
       },
 
-      setPos(element: HTMLElement, index: number, ship: Vue): void {  
+      setPos(element: any, index: number, ship: Vue): void {  
         const leftOffset = (element[index].getBoundingClientRect().width / 2)
           - (ship.$el.getBoundingClientRect().width / 2);
         this.pos = element[index].getBoundingClientRect().left + leftOffset;
       },
 
 
-      getDistanceToLetter(elementPointer: HTMLElement, index: number, shipPointer: Vue) {
+      getDistanceToLetter(elementPointer: any, index: number, shipPointer: Vue) {
         const ship = {
           x: shipPointer.$el.getBoundingClientRect().left,
           y: shipPointer.$el.getBoundingClientRect().top,
@@ -248,11 +248,9 @@
       getLoot() {
         const roll = Math.ceil(Math.random() * 100);
 
-        if(roll === 100) {
-          this.timeLeft += 10;
-        } else if(roll >= 96) {
+        if(roll >= 98) {
           this.inventory.hearts++;
-        } else if(roll >= 92) {
+        } else if(roll >= 95) {
           this.inventory.bombs++;
         } else {
           return;
