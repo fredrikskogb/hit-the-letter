@@ -34,7 +34,13 @@
 					? require("../../assets/images/mountain.png")
 					: require("../../assets/images/mountain2.png")
 			},
-		} 
+			getRandomMountainAmount(): number {
+				return Math.ceil(Math.random() * 3) + 1;
+			}
+		},
+		mounted(): void {
+			this.mountainsPerRow = this.getRandomMountainAmount();
+		}
 	})
 
 </script>
