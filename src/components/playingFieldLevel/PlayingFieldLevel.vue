@@ -19,7 +19,7 @@
       </div>
       <div class="information-container">
         <p class="timer">Time left: 
-          <Countdown :startingTime="60" v-on:time-is-out="gameEnd(true)"/>
+          <Countdown :timeLeft="timeLeft" v-on:time-is-out="gameEnd(true)"/>
         </p>
         <p>Points: {{points}}</p>
         <p>Level: {{level}}</p>
@@ -67,11 +67,12 @@
 
   export default Vue.extend({
 
-    name: "playingFieldBaseLevel" as string,
+    name: "playingFieldLevel" as string,
 
     data() {
       return {
-        timeLeft: 60,
+        startingTime: 60,
+        timeLeft: 0,
         interval: 0,
         level: 1,
         points: 0,
@@ -79,6 +80,8 @@
         nextLevel: false,
         gameFailed: false,
         correctHit: false,
+        hits: 0,
+        requiredHits: 10,
         inventory: {
           hearts: 3,
           bombs: 3
@@ -112,6 +115,8 @@
             }
           }
         })
+        this.hits = 0;
+        this.timeLeft = this.startingTime;
       },
 
       makeFalsy(): void {
@@ -137,21 +142,21 @@
         activeLetter[key].active = true;
 
         const letterElement = this.$refs[activeLetter] as HTMLElement;
-        const ship = this.$refs["ship"] as Vue.Component;
+        const ship = this.$refs["ship"] as Vue;
 
         this.setPos(letterElement, index, ship);
         this.getDistanceToLetter(letterElement, index, ship);
 
       },
 
-      setPos(element: HTMLElement, index: number, ship: Vue): void {  
+      setPos(element: any, index: number, ship: Vue): void {  
         const leftOffset = (element[index].getBoundingClientRect().width / 2)
           - (ship.$el.getBoundingClientRect().width / 2);
         this.pos = element[index].getBoundingClientRect().left + leftOffset;
       },
 
 
-      getDistanceToLetter(elementPointer: HTMLElement, index: number, shipPointer: Vue) {
+      getDistanceToLetter(elementPointer: any, index: number, shipPointer: Vue) {
         const ship = {
           x: shipPointer.$el.getBoundingClientRect().left,
           y: shipPointer.$el.getBoundingClientRect().top,
@@ -186,20 +191,11 @@
         return false;
       },
       correctHitCheck() {
-
-        if(this.correctHitAnimation === true) {
-
-          setTimeout(() => {
-            this.correctHitAnimation = false;
-            return false;
-          }, 250)
-
-        }
-
         this.correctHitAnimation = true;
-        this.correctHitCheck();
-        return true;
 
+        setTimeout(() => {
+          this.correctHitAnimation = false;
+        }, 250)
       },
 
       isBombed(letter: any) {
@@ -223,8 +219,13 @@
         } else if(activeLetterHit && !this.correctHit) {
           this.correctHit = true;
           this.points += this.level;
+          this.hits++;
           this.correctHitCheck();
           this.getLoot();
+          if(this.hits === this.requiredHits) {
+            this.gameFailed = false;
+            this.gameEnd(false);
+          }
         } else {
           if(this.inventory.hearts > 0) {
             this.inventory.hearts--;
@@ -248,11 +249,9 @@
       getLoot() {
         const roll = Math.ceil(Math.random() * 100);
 
-        if(roll === 100) {
-          this.timeLeft += 10;
-        } else if(roll >= 96) {
+        if(roll >= 98) {
           this.inventory.hearts++;
-        } else if(roll >= 92) {
+        } else if(roll >= 95) {
           this.inventory.bombs++;
         } else {
           return;
@@ -314,7 +313,10 @@
         this.nextLevel = false;
         this.level++;
         this.points = latestPoints;
-      }
+        this.initLetters();
+        this.requiredHits = this.requiredHits + this.level - 1;
+        this.interval = setInterval(() => { this.makeActive(); }, 2000 - (this.level * 80));
+      },
     },
 
     computed: mapGetters(['user', 'singleHighscore']),
@@ -329,7 +331,7 @@
     // Mounted lifecycle hook because we need to wait for DOM render
     mounted(): void {
       // Increase pace by 110ms on making letter active based on level
-      this.interval = setInterval(() => { this.makeActive(); }, 2000 - (this.level * 110));
+      this.interval = setInterval(() => { this.makeActive(); }, 2000 - (this.level * 80));
     },
 
     beforeDestroy() {
@@ -398,9 +400,10 @@
   }
 
   .player-inventory {
-    margin-top: 100px;
+    position: absolute;
+    bottom: 200px;
     height: 40px;
-    width: 100%;
+    width: 80%;
     display: flex;
     justify-content: space-between;
 

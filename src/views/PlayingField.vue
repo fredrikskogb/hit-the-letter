@@ -1,7 +1,7 @@
 <template>
   <div class="playing-field-container">
-    <PlayingFieldBaseLevel
-      class="playing-field-base-level"
+    <PlayingFieldLevel
+      class="playing-field-level"
       :letters="letters"
     />
   </div>
@@ -9,14 +9,14 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import PlayingFieldBaseLevel from "@/components/playingFieldBaseLevel/PlayingFieldBaseLevel.vue";
+  import PlayingFieldLevel from "@/components/playingFieldLevel/PlayingFieldLevel.vue";
 
   export default Vue.extend({
 
     name: 'playingField',
 
     components: {
-      PlayingFieldBaseLevel
+      PlayingFieldLevel
     },
 
     data(): {} {
@@ -38,7 +38,7 @@
 .playing-field-container {
   width: 100vw;
   height: 100vh;
-  .playing-field-base-level {
+  .playing-field-level {
     padding-top: 50px;
   }
 
