@@ -215,7 +215,11 @@
           }
         }
         if(event.key === " ") {
-          this.useBomb();
+          if(this.inventory.bombs > 0) {
+            this.useBomb();
+          } else {
+            return;
+          }
         } else if(activeLetterHit && !this.correctHit) {
           this.correctHit = true;
           this.points += this.level;
