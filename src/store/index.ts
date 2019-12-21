@@ -2,6 +2,7 @@ import Vuex from 'vuex';
 import Vue from 'vue';
 import user from './modules/user';
 import highscore from './modules/highscore';
+import audio from './modules/audio';
 
 //Load Vuex
 Vue.use(Vuex);
@@ -10,6 +11,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     modules: {
         user,
-        highscore
+        highscore,
+        audio
     }
 });

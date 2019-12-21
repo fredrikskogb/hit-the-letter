@@ -3,6 +3,7 @@
 	<!-- Send logged in status to all routered components through props -->
     <router-view/>
 	<BackgroundImage></BackgroundImage>
+	<Audio/>
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 
 	import Vue from 'vue'
 	import BackgroundImage from '@/components/layout/BackgroundImage.vue';
+	import Audio from '@/components/audio/Audio.vue';
 	import { mapActions } from 'vuex';
 	import {IUserSecure} from './types/index';
 
@@ -17,7 +19,8 @@
 		you need to define components with Vue.component or Vue.extend. */
 	export default Vue.extend({
 		components: {
-			BackgroundImage 
+			BackgroundImage,
+			Audio
 		},
 		methods: {
 			...mapActions(['localStorageLogin'])

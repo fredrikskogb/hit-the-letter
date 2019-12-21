@@ -103,7 +103,7 @@
 
     methods: {
 
-      ...mapActions(["updateHighscore", "fetchHighscore"]),
+      ...mapActions(["updateHighscore", "fetchHighscore", "playLaser", "playBomb", "playMiss"]),
 
       initLetters(): void {
         // Make letters to object to get access to boolean for Vue DOM manipulation
@@ -226,12 +226,14 @@
           this.hits++;
           this.correctHitCheck();
           this.getLoot();
+          this.playLaser();
           if(this.hits === this.requiredHits) {
             this.gameFailed = false;
             this.gameEnd(false);
           }
         } else {
           if(this.inventory.hearts > 0) {
+            this.playMiss();
             this.inventory.hearts--;
           } else {
             this.gameFailed = true;
@@ -247,6 +249,7 @@
           let key = Object.keys(letter)[0];
           letter[key].bombed = true;
         }
+        this.playBomb();
         this.inventory.bombs--;
       },
 
@@ -323,7 +326,7 @@
       },
     },
 
-    computed: mapGetters(['user', 'singleHighscore']),
+    computed: mapGetters(['user', 'singleHighscore', "laser"]),
 
     created(): void {
       // Make letters to object to get access to boolean for Vue DOM manipulation
