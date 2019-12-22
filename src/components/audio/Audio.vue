@@ -37,7 +37,7 @@
       this.pauseAudio();
       setTimeout(()  => {
         this.playSong();
-        this.audioInterval = setInterval(() => { this.playSong(); }, 155000);
+        this.audioInterval = setInterval(() => { this.playSong(); }, 145000);
       }, 1000);
       
     }

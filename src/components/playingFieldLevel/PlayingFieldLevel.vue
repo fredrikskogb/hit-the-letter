@@ -307,6 +307,7 @@
 
         if (!this.user.hasOwnProperty('id')) {
           this.setLocalStorageHighscore();
+          console.log("inte loggad")
         } else {
           this.setUserHighscore();
         }

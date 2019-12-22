@@ -1,4 +1,3 @@
-
 const state = {
   mainSong: new Audio(require("../../assets/audio/main_song.mp3")),
   laser: new Audio(require("../../assets/audio/laser.mp3")),
