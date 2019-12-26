@@ -18,6 +18,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
+import { mapActions } from 'vuex';
 
   export default Vue.extend({
 
@@ -35,6 +36,7 @@
       }
     },
     methods: {
+      ...mapActions(["playPickShip"]),
       swipe(event: any) {
         this.selected = "Select";
         this.url = require(`../../assets/images/${this.ships[1]}`)
@@ -67,6 +69,7 @@
       setShip(event: any) {
         this.selected = "selected";
         localStorage.setItem("ship", this.ships[this.setShipIndex]);
+        this.playPickShip();
       },
 
       checkSelectedShip() {
