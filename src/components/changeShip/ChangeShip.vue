@@ -36,13 +36,17 @@ import { mapActions } from 'vuex';
       }
     },
     methods: {
+
       ...mapActions(["playPickShip"]),
+
       swipe(event: any) {
+
         this.selected = "Select";
-        this.url = require(`../../assets/images/${this.ships[1]}`)
         const left = this.$refs["left"] as HTMLDivElement;
-        
+        const right = this.$refs["right"] as HTMLDivElement;
+
         if(event.target === left){
+
           if(this.setShipIndex === 0){
             this.setShipIndex = this.ships.length - 1;
             this.url = require(`../../assets/images/${this.ships[this.setShipIndex]}`);
@@ -52,16 +56,19 @@ import { mapActions } from 'vuex';
             this.url = require(`../../assets/images/${this.ships[this.setShipIndex]}`);
             this.selectedShip = this.ships[this.setShipIndex];
           }
-        } else {
-          if(this.setShipIndex === this.ships.length - 1) {
-            this.setShipIndex = 0;
-            this.url = require(`../../assets/images/${this.ships[this.setShipIndex]}`);
-            this.selectedShip = this.ships[this.setShipIndex];
-          } else {
-            this.setShipIndex++;
-            this.url = require(`../../assets/images/${this.ships[this.setShipIndex]}`);
-            this.selectedShip = this.ships[this.setShipIndex];
-          }
+          
+        } else if(event.target === right) {
+
+            if(this.setShipIndex === this.ships.length - 1) {
+              this.setShipIndex = 0;
+              this.url = require(`../../assets/images/${this.ships[this.setShipIndex]}`);
+              this.selectedShip = this.ships[this.setShipIndex];
+            } else {
+              this.setShipIndex++;
+              this.url = require(`../../assets/images/${this.ships[this.setShipIndex]}`);
+              this.selectedShip = this.ships[this.setShipIndex];
+            }
+
         }
 
       },
@@ -102,12 +109,16 @@ import { mapActions } from 'vuex';
     .fas-container {
 
       padding: 10px;
-      cursor: pointer;
+      
 
       &:hover {
         transform: scale(1.2);
         overflow: hidden;
         transition-duration: 200ms;
+      }
+
+      i {
+        cursor: pointer;
       }
 
     }
