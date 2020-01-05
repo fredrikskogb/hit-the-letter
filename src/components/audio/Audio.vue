@@ -45,11 +45,8 @@
         }, 1000);
       }
     },
-    computed: mapGetters(['mainSong']),
-    mounted() {
-      
-      
-    }
+    computed: mapGetters(['mainSong'])
+    
   })
 </script>
 
