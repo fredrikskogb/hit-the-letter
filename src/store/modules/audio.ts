@@ -36,16 +36,18 @@ const actions = {
 
 const mutations = {
   
-  muteAudio: (state: { mainSong: any; laser: any; pickShip: any; miss: any;}) => {
+  muteAudio: (state: { mainSong: any; laser: any; pickShip: any; bomb: any; miss: any;}) => {
     state.mainSong.muted = false,
     state.laser.muted = false,
     state.pickShip.muted = false,
+    state.bomb.muted = false,
     state.miss.muted = false
   },
-  enableAudio: (state: { mainSong: any; laser: any; pickShip: any; miss: any;}) => {
+  enableAudio: (state: { mainSong: any; laser: any; pickShip: any; bomb: any; miss: any;}) => {
     state.mainSong.muted = true,
     state.laser.muted = true,
     state.pickShip.muted = true,
+    state.bomb.muted = true,
     state.miss.muted = true
   },
   startSong: (state: { mainSong: any; }) => {

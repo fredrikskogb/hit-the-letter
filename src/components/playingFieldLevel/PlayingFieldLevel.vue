@@ -175,7 +175,7 @@
 
         this.laserStyles = {
           left: this.pos + 'px',
-          height: distanceBetween - 50 + 'px'
+          height: distanceBetween - 40 + 'px'
         }
       },
 
@@ -442,22 +442,6 @@
       }
     }
   }
-  /*.teleport {
-    animation: 0.2s linear;
-		animation-name: teleport; 
-  }*/
-
-  /*@keyframes teleport {
-     0% {
-            transform: scale(1.0);
-        }
-        50% {
-            transform: scale(0);
-        }
-        100% {
-            transform: scale(1.0);
-        }
-     }*/
 
   .slide-fade-enter-active {
     transition: all 0.1s ease;
@@ -469,11 +453,13 @@
     transform: scale(0.8, 0.8);
   }
   .ship-container {
-    width: 100px;
+    width: 110px;
+    display: flex;
+    justify-content: center;
   }
 
   .ship-shot-container {
-    width: 100px;
+    width: 110px;
     position: absolute;
     margin: 0 auto;
     bottom: 160px;

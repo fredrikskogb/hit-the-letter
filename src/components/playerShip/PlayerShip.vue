@@ -31,7 +31,7 @@
 
 <style lang="less" scoped>
 .ufo-image {
-  width: 110px;
+  height: 50px;
   animation: sideways 3s linear infinite alternate;
 }
 div {
@@ -39,18 +39,17 @@ div {
   margin: 0 auto;
   bottom: 120px;
   animation: rotation 0.2s linear infinite alternate;
-  box-shadow: 3px 140px 19px -7px rgba(0,0,0,0.35);
-
+  box-shadow: 3px 140px 19px -7px rgba(0,0,0,0.2);
 }
+
 @keyframes rotation { 
   50% { -webkit-transform: rotate(1deg); transform:rotate(1deg); } 
   100% { -webkit-transform: rotate(-1deg); transform:rotate(-1deg); } 
 }
 
 @keyframes sideways {
-  50% { -webkit-transform: translate3d(-10px,2px,0); transform: translate3d(-10px,2px,0) } 
-  100% { -webkit-transform: translate3d(10px,-2px,0); transform: translate3d(10px,-2px,0) } 
-
+  50% { transform: translate(-5px) } 
+  100% { transform: translate(5px) } 
 }
 
 </style>
