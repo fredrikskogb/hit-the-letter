@@ -84,7 +84,7 @@
         requiredHits: 10,
         inventory: {
           hearts: 3,
-          bombs: 3
+          bombs: 10
         },
         correctHitAnimation: false,
         pos: "",
@@ -215,8 +215,10 @@
           }
         }
         if(event.key === " ") {
-          if(this.inventory.bombs > 0) {
+          if(this.inventory.bombs > 0 && this.letterData.length > 1) {
+            
             this.useBomb();
+            
           } else {
             return;
           }
