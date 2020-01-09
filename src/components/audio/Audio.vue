@@ -14,14 +14,20 @@
     name: "audioComponent",
     data() {
       return {
-        audio: true,
-        audioInterval: 0
+        audio: false,
+        audioInterval: 0,
+        toggled: false
       }
     },
     methods: {
       ...mapActions(["pauseAudio", "playAudio", "playSong"]),
       toggleAudio() {
-        
+        if(this.toggled === false) {
+          this.toggled = true;
+          this.audio = true;
+          this.initSong();
+          return;
+        }
         if(this.audio === false) {
           this.pauseAudio()
         }else {
@@ -31,16 +37,16 @@
         this.audio = !this.audio;
 
       },
+      initSong() {
+        this.pauseAudio();
+        setTimeout(()  => {
+          this.playSong();
+          this.audioInterval = setInterval(() => { this.playSong(); }, 145000);
+        }, 1000);
+      }
     },
-    computed: mapGetters(['mainSong']),
-    mounted() {
-      this.pauseAudio();
-      setTimeout(()  => {
-        this.playSong();
-        this.audioInterval = setInterval(() => { this.playSong(); }, 145000);
-      }, 1000);
-      
-    }
+    computed: mapGetters(['mainSong'])
+    
   })
 </script>
 
