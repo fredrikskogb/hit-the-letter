@@ -120,7 +120,7 @@ export default Vue.extend({
 			event.stopPropagation();
 			const response = await this.loginUser(
 				{
-					email: this.formData.email,
+					username: this.formData.username,
 					password: this.formData.password
 				}
 			);

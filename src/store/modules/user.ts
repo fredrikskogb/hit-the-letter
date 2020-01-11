@@ -27,7 +27,7 @@ const getters = {
 
 const actions = {
     async loginUser({commit} : {commit: any}, user: any) {
-        const response = await axios.get(`${CONFIG_URL}/user/login.php?email=${user.email}&password=${user.password}`);
+        const response = await axios.get(`${CONFIG_URL}/user/login.php?username=${user.username}&password=${user.password}`);
         commit('setUser', response.data);
         return response.data;
     },
