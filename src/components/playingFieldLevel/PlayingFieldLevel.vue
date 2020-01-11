@@ -324,7 +324,7 @@
         this.initLetters();
         this.requiredHits = this.requiredHits + this.level - 1;
         this.interval = setInterval(() => { this.makeActive(); },
-          2000 - (500 ^ (1 + ((this.level - 1) / 100)))
+          1500 - (300 * Math.log( this.level / 2 ))
         );
       },
     },
