@@ -28,14 +28,14 @@ const getters = {
 const actions = {
     async loginUser({commit} : {commit: any}, user: any) {
         const response = await axios.get(`${CONFIG_URL}/user/login.php?email=${user.email}&password=${user.password}`);
-        console.log(response.data);
         commit('setUser', response.data);
+        return response.data;
     },
     
     async registerUser({commit} : {commit: any}, user: any){
       const response = await axios.post(`${CONFIG_URL}/user/register.php/`, user);
-      console.log(response.data);
       commit('setUser', response.data);
+      return response.data;
   },
 
   resetUserState ({commit} : {commit: any}) {
