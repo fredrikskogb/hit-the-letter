@@ -325,7 +325,9 @@
         this.points = latestPoints;
         this.initLetters();
         this.requiredHits = this.requiredHits + this.level - 1;
-        this.interval = setInterval(() => { this.makeActive(); }, 2000 - (this.level * 80));
+        this.interval = setInterval(() => { this.makeActive(); },
+          1500 - (300 * Math.log( this.level / 2 ))
+        );
       },
     },
 
@@ -341,7 +343,9 @@
     // Mounted lifecycle hook because we need to wait for DOM render
     mounted(): void {
       // Increase pace by 110ms on making letter active based on level
-      this.interval = setInterval(() => { this.makeActive(); }, 2000 - (this.level * 80));
+      this.interval = setInterval(() => { this.makeActive(); },
+        2000 - (this.level * 80)
+      );
     },
 
     beforeDestroy() {
