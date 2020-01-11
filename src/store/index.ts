@@ -1,15 +1,17 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex from 'vuex';
+import Vue from 'vue';
+import user from './modules/user';
+import highscore from './modules/highscore';
+import audio from './modules/audio';
 
-Vue.use(Vuex)
-// Used for sending values to distant components without having to use props and emits
+//Load Vuex
+Vue.use(Vuex);
+
+//Create store
 export default new Vuex.Store({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+    modules: {
+        user,
+        highscore,
+        audio
+    }
+});

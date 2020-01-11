@@ -1,14 +1,61 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+	<!-- Send logged in status to all routered components through props -->
     <router-view/>
+	<BackgroundImage></BackgroundImage>
+	<Audio/>
   </div>
 </template>
 
-<style>
+<script lang="ts">
+
+	import Vue from 'vue'
+	import BackgroundImage from '@/components/layout/BackgroundImage.vue';
+	import Audio from '@/components/audio/Audio.vue';
+	import { mapActions } from 'vuex';
+	import {IUserSecure} from './types/index';
+
+	/* To let TypeScript properly infer types inside Vue component options,
+		you need to define components with Vue.component or Vue.extend. */
+	export default Vue.extend({
+		components: {
+			BackgroundImage,
+			Audio
+		},
+		methods: {
+			...mapActions(['localStorageLogin'])
+		},
+		created() {
+			if(localStorage.getItem("user") !== null) {
+				let user = localStorage.getItem("user") as string;
+				user = JSON.parse(window.atob(user));
+				this.localStorageLogin(user);
+			}
+			if(localStorage.getItem("ship") === null) {
+				localStorage.setItem("ship", "ufo.png");
+			}
+		}
+	})
+
+</script>
+
+<style lang="less">
+
+/* General styling */
+
+@import url('./styles/main.less');
+
+html {
+	color: @text-color;
+	font-family: 'Tomorrow', sans-serif;
+}
+
+a {
+	.text-styling;
+	color: @link-color;
+}
+
+
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -31,7 +78,6 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */

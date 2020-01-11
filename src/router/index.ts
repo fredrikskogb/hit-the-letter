@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import PlayingField from '../views/PlayingField.vue';
+import Customization from "../views/Customization.vue";
+import Leaderboard from "../views/Leaderboard.vue";
 
 Vue.use(VueRouter)
 
@@ -9,6 +12,21 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/playing-field',
+    name: 'playingField',
+    component: PlayingField
+  },
+  {
+    path: '/customization-menu',
+    name: 'customizationMenuView',
+    component: Customization
+  },
+  {
+    path: '/leaderboard',
+    name: 'leaderboard',
+    component: Leaderboard
   },
   {
     path: '/about',
