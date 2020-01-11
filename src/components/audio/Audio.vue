@@ -23,13 +23,10 @@
       ...mapActions(["pauseAudio", "playAudio", "playSong"]),
       toggleAudio() {
         if(this.toggled === false) {
-          this.toggled = true;
-          this.audio = true;
           this.initSong();
-          return;
         }
         if(this.audio === false) {
-          this.pauseAudio()
+          this.pauseAudio();
         }else {
           this.playAudio();
         }
@@ -38,6 +35,8 @@
 
       },
       initSong() {
+        this.toggled = true;
+
         this.pauseAudio();
         setTimeout(()  => {
           this.playSong();
@@ -45,7 +44,10 @@
         }, 1000);
       }
     },
-    computed: mapGetters(['mainSong'])
+    computed: mapGetters(['mainSong']),
+    mounted() {
+      this.playAudio();
+    }
     
   })
 </script>

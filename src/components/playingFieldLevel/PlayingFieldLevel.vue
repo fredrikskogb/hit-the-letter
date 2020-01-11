@@ -81,6 +81,7 @@
         gameFailed: false,
         correctHit: false,
         hits: 0,
+        playing: true,
         requiredHits: 10,
         inventory: {
           hearts: 3,
@@ -126,26 +127,28 @@
           letter[key].active = false;
         }
         this.letterData = this.letterData.filter((obj: any) => obj[Object.keys(obj)[0]].bombed === false);
-        console.log(this.letterData);
       },
 
       makeActive(): void {
+        if(this.playing) {
 
-        // reset values
-        this.makeFalsy();
-        this.correctHit = false;
-        // Takes a random letter.
-        const index = Math.floor(Math.random() * this.letterData.length);
-        let activeLetter: any = this.letterData[index];
-        // Make letter active
-        let key = Object.keys(activeLetter)[0];
-        activeLetter[key].active = true;
+          // reset values
+          this.makeFalsy();
+          this.correctHit = false;
+          // Takes a random letter.
+          const index = Math.floor(Math.random() * this.letterData.length);
+          let activeLetter: any = this.letterData[index];
+          // Make letter active
+          let key = Object.keys(activeLetter)[0];
+          activeLetter[key].active = true;
+  
+          const letterElement = this.$refs[activeLetter] as HTMLElement;
+          const ship = this.$refs["ship"] as Vue;
+  
+          this.setPos(letterElement, index, ship);
+          this.getDistanceToLetter(letterElement, index, ship);
 
-        const letterElement = this.$refs[activeLetter] as HTMLElement;
-        const ship = this.$refs["ship"] as Vue;
-
-        this.setPos(letterElement, index, ship);
-        this.getDistanceToLetter(letterElement, index, ship);
+        }
 
       },
 
@@ -349,7 +352,9 @@
     },
 
     beforeDestroy() {
+      this.playing = false;
       clearInterval(this.interval);
+      window.removeEventListener("keydown", this.handleKeypress);
     }
   })
 </script>
@@ -391,7 +396,7 @@
   .active {
     background-color: rgba(66, 175, 66, 0.767);
     &.correct {
-      background-color: rgb(18, 223, 18);
+      background-color: rgba(145, 18, 150, 0.61);
     }
   }
 
