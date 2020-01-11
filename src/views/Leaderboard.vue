@@ -16,7 +16,7 @@
         
         <div class="result" v-for="(highscore, index) in highscores" :key="index">
           <div class="highscore-row user" v-if="index == 0 && userPosition > 0">
-            <p>{{userPosition + 1}}.</p>
+            <p>{{userPosition}}.</p>
             <p>{{user.username}}</p>
             <p>{{userHighscore.points}}</p>
             <p>{{userHighscore.level}}</p>
@@ -68,7 +68,7 @@
       },
       setUserPosition() {
         const position = this.highscores.findIndex(element => element.username == this.user.username);
-        this.userPosition = position;
+        this.userPosition = position + 1;
       }
     }, 
     created() {
@@ -130,5 +130,26 @@
       flex: 1;
     }
   }
+
 }
+  /* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #00000070; 
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border: 1px solid white;
+  border-radius: 10px;
+}
+
+
 </style>
