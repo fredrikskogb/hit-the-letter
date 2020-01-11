@@ -85,7 +85,7 @@
         requiredHits: 10,
         inventory: {
           hearts: 3,
-          bombs: 10
+          bombs: 3
         },
         correctHitAnimation: false,
         pos: "",
@@ -126,7 +126,6 @@
           let key = Object.keys(letter)[0];
           letter[key].active = false;
         }
-        this.letterData = this.letterData.filter((obj: any) => obj[Object.keys(obj)[0]].bombed === false);
       },
 
       makeActive(): void {
@@ -140,6 +139,10 @@
           let activeLetter: any = this.letterData[index];
           // Make letter active
           let key = Object.keys(activeLetter)[0];
+          if(activeLetter[key].bombed === true) {
+            this.makeActive();
+            return;
+          }
           activeLetter[key].active = true;
   
           const letterElement = this.$refs[activeLetter] as HTMLElement;
@@ -252,7 +255,9 @@
         for (let i = 0; i < this.letterData.length * 0.4; i++) {
           const letter: any = this.letterData[Math.floor(Math.random() * this.letterData.length)];
           let key = Object.keys(letter)[0];
-          letter[key].bombed = true;
+          if(letter[key].active === false) {
+            letter[key].bombed = true;
+          }
         }
         this.playBomb();
         this.inventory.bombs--;
@@ -394,14 +399,14 @@
   }
 
   .active {
-    background-color: rgba(66, 175, 66, 0.767);
+    background-color: rgba(79, 180, 79, 0.801);
     &.correct {
-      background-color: rgba(145, 18, 150, 0.61);
+      background-color: rgba(34, 105, 107, 0.836);
     }
   }
 
   .bombed {
-    background-color: rgba(0, 0, 0, 1);
+    background-color: rgba(39, 39, 39, 0.603);
   }
 
   .incorrect {
