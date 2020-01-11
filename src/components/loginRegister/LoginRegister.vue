@@ -208,6 +208,7 @@ export default Vue.extend({
 				font-style: italic;
 				font-size: 0.9em;
 				margin-bottom: 15px;
+				cursor: initial;
 			}
 			p {
 				cursor: pointer;
