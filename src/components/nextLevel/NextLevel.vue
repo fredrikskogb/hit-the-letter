@@ -1,8 +1,13 @@
 <template>
   <div class="next-level">
     <p class="points">Your score: {{ points }} points.</p>
-    <p class="next-view-link" @click="homeScreen" v-if="gameFailed">Game over. Return to home screen.</p>
-    <p class="next-view-link" @click="nextLevel" v-if="!gameFailed">Good work. Go to next level.</p>
+
+    <p class="next-view-link" @click="homeScreen" v-if="gameFailed" 
+    tabindex="0" v-on:keyup.enter="homeScreen" ref="failed">Game over. Return to home screen.</p>
+
+    <p class="next-view-link" @click="nextLevel" v-if="!gameFailed" 
+    tabindex="0" v-on:keyup.enter="nextLevel" ref="next">Good work. Go to next level.</p>
+
   </div>
 </template>
 
@@ -14,10 +19,19 @@
     props: ["gameFailed", "points"],
     methods: {
       homeScreen() {
-        this.$router.push({ path: '/' })
+        this.$router.push({ path: '/customization-menu' })
       },
       nextLevel() {
         this.$emit("next-level", this.points);
+      }
+    },
+    mounted() {
+      if(this.$refs.failed) {
+        const failed = this.$refs.failed as HTMLParagraphElement;
+        failed.focus();
+      } else {
+        const next = this.$refs.next as HTMLParagraphElement;
+        next.focus();
       }
     }
   })

@@ -1,6 +1,7 @@
 <template>
 	<div class="login-register-wrapper">
 		<div class="login-register-options" v-if="!openFields">
+      <p class="keyboard-notification">Physical keyboard is required</p>
 			<p @click="openLogIn" class="login-link">
 				Log in
 			</p>
@@ -201,6 +202,12 @@ export default Vue.extend({
 		.login-register-options {
 			* {
 				margin: 5px;
+			}
+			.keyboard-notification {
+				font-weight: 300;
+				font-style: italic;
+				font-size: 0.9em;
+				margin-bottom: 15px;
 			}
 			p {
 				cursor: pointer;

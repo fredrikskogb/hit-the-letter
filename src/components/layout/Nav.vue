@@ -6,7 +6,7 @@
 						<router-link to="/" v-if="!user.id">Login</router-link><span v-if="!user.id"> | </span>
 						<router-link to="/about">About</router-link>
 					</div>
-					<router-link to="/leaderboard">Leaderboard</router-link>
+					<router-link to="/leaderboard" v-if="user.id">Leaderboard</router-link>
 					<router-link to="/customization-menu">Customization</router-link>
 				</nav>
 			</div>
