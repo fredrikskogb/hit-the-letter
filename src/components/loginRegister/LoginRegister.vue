@@ -1,27 +1,63 @@
 <template>
 	<div class="login-register-wrapper">
 		<div class="login-register-options" v-if="!openFields">
-			<p @click="toggleFields">
-				Log in / Register
+			<p @click="openLogIn" class="login-link">
+				Log in
 			</p>
-			<router-link to="/customization-menu">Play without logging in</router-link>
+			<p @click="openSignUp" v-if="!openFields">
+				Sign up
+			</p>
+			<router-link to="/customization-menu">
+				Play without logging in
+			</router-link>
 		</div>
 		
 		<div class="login_register_form login-register-fields" v-if="openFields">
 
 			<label for="username">Username</label>
-			<input v-model="newUser.username" name="username" type="text" id="username" class="login_register_input" required>
+			<input name="username"
+				v-model="formData.username"
+				type="text"
+				id="username"
+				class="login_register_input"
+				required>
 
-			<label for="email">Email</label>
-			<input v-model="newUser.email" name="email" type="text" id="email" class="login_register_input" required>
+			<label for="email" v-if="openFields === 'signup'">Email</label>
+			<input name="email"
+				v-if="openFields === 'signup'"
+				v-model="formData.email"
+				type="text"
+				id="email"
+				class="login_register_input"
+				required>
 
 			<label for="password">Password</label>
-			<input v-model="newUser.password" name="password" type="password" id="password" class="login_register_input" required>
+			<input name="password"
+				v-model="formData.password"
+				type="password"
+				id="password"
+				class="login_register_input"
+				required>
+
+			<p v-for="(error, index) in errors" :key="index">
+				{{error}}
+			</p>
 
 			<div class="button-container">
-				<button @click="verifyLogin" class="login_register_submit">Log in</button>
-				<button @click="verifySignup" class="login_register_submit middle-button">Sign up</button>
-				<button @click="toggleFields" class="login_register_submit">Back</button>
+				<button @click="logIn"
+					v-if="openFields === 'login'"
+					class="login_register_submit">
+					Log in
+				</button>
+				<button @click="signUp"
+					v-if="openFields === 'signup'"
+					class="login_register_submit middle-button">
+					Sign up
+				</button>
+				<button @click="closeFields"
+					class="login_register_submit">
+					Back
+				</button>
 			</div>
 
     </div>
@@ -41,13 +77,13 @@ export default Vue.extend({
 	// What data the component contains, print in html using interpolation {{ test }}
   data() {
     return {
-			openFields: false,
-			newUser: {
+			openFields: "",
+			formData: {
 				email: "",
 				username: "",
 				password: ""
-			} as any
-			
+			} as any,
+			errors: [] as string[]
     }
   },
 
@@ -66,25 +102,82 @@ export default Vue.extend({
 
 		...mapActions(['loginUser', 'registerUser', 'addHighscore']),
 
-		toggleFields() {
-			this.openFields = !this.openFields;
+		openLogIn() {
+			this.openFields = "login";
 		},
 
-		async verifyLogin(event: Event) {
+		openSignUp() {
+			this.openFields = "signup";
+		},
+
+		closeFields() {
+			this.openFields = "";
+		},
+
+		async logIn(event: Event) {
+			this.errors = [];
 			event.stopPropagation();
-			await this.loginUser({email: this.newUser.email, password: this.newUser.password});
+			const response = await this.loginUser(
+				{
+					email: this.formData.email,
+					password: this.formData.password
+				}
+			);
+			if (response.message) {
+				this.errors.push(response.message);
+			}
+			if(this.user.hasOwnProperty('id')) {
+				this.$router.push({ path: '/customization-menu' });
+			}
+		},
+
+		async signUp(event: Event) {
+			event.stopPropagation();
+			if(this.verifySignup()) {
+				const response = await this.registerUser(this.formData);
+				if (response.message) {
+					this.errors.push(response.message);
+				}
+				this.addHighscore({userId: this.user.id, points: 0, level: 0});
+			}
 			if(this.user.hasOwnProperty('id')) this.$router.push({ path: '/customization-menu' });
 		},
 
-		async verifySignup(event: Event) {
-			event.stopPropagation();
-			await this.registerUser(this.newUser);
-			this.addHighscore({userId: this.user.id, points: 0, level: 0});
-			if(this.user.hasOwnProperty('id')) this.$router.push({ path: '/customization-menu' });
+		verifySignup(): boolean {
+			this.errors = [];
+			if (this.formData.email === "") {
+				this.errors.push("Email field is empty!");
+			} else if (this.formData.email.includes("@") === false) {
+				this.errors.push("Not a valid email address.");
+			}
+
+			if (this.formData.username === "") {
+				this.errors.push("Username field is empty!");
+			} else if (this.formData.username.length <= 2) {
+				this.errors.push("Username must be 3 characters or more!");
+			}
+
+			if (this.formData.password === "") {
+				this.errors.push("Password field is empty");
+			} else {
+				if (this.formData.password.length <= 5) {
+					this.errors.push("Password must be 6 characters or more");
+				}
+				const format = /^(?=.{6,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
+				if (!format.test(this.formData.password)) {
+					this.errors.push(
+						"Password must contain one capital letter, one small letter and one number"
+					);
+				}
+			}
+
+			if(!this.errors[0]) {
+				return true;
+			} else {
+				return false;
+			}
 		}
-
 	}
-	
 })
 
 </script>
@@ -117,8 +210,12 @@ export default Vue.extend({
 				box-shadow: none;
 				text-decoration: none;
 			}
+			.login-link {
+				margin-bottom: 10px;
+			}
 		}
 	}
+	
 
 	.fail-register {
 		border-color: salmon;
