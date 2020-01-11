@@ -208,6 +208,30 @@
         return letter[Object.keys(letter)[0]].bombed;
       },
 
+      useBomb() {
+        for (let i = 0; i < this.letterData.length * 0.4; i++) {
+          const letter: any = this.letterData[Math.floor(Math.random() * this.letterData.length)];
+          let key = Object.keys(letter)[0];
+          if(letter[key].active === false) {
+            letter[key].bombed = true;
+          }
+        }
+        this.playBomb();
+        this.inventory.bombs--;
+      },
+
+      getLoot() {
+        const roll = Math.ceil(Math.random() * 100);
+
+        if(roll >= 98) {
+          this.inventory.hearts++;
+        } else if(roll >= 95) {
+          this.inventory.bombs++;
+        } else {
+          return;
+        }
+      },
+
       handleKeypress(event: KeyboardEvent) {
         //get pressed letter
         const target = event.key.toUpperCase();
@@ -237,7 +261,8 @@
           this.playLaser();
           if(this.hits === this.requiredHits) {
             this.gameFailed = false;
-            this.gameEnd(false);
+            this.nextLevel = true;
+            clearInterval(this.interval);
           }
         } else {
           if(this.inventory.hearts > 0) {
@@ -250,29 +275,19 @@
           }
         }
       },
+      // Set highscore and show NextLevel.vue
+      gameEnd(timeIsOut: boolean): void {
+        console.log("Session ended.");
 
-      useBomb() {
-        for (let i = 0; i < this.letterData.length * 0.4; i++) {
-          const letter: any = this.letterData[Math.floor(Math.random() * this.letterData.length)];
-          let key = Object.keys(letter)[0];
-          if(letter[key].active === false) {
-            letter[key].bombed = true;
-          }
-        }
-        this.playBomb();
-        this.inventory.bombs--;
-      },
-
-      getLoot() {
-        const roll = Math.ceil(Math.random() * 100);
-
-        if(roll >= 98) {
-          this.inventory.hearts++;
-        } else if(roll >= 95) {
-          this.inventory.bombs++;
+        if (!this.user.hasOwnProperty('id')) {
+          this.setLocalStorageHighscore();
+          console.log("inte loggad")
         } else {
-          return;
+          this.setUserHighscore();
         }
+        if (timeIsOut) this.gameFailed = true;
+        this.nextLevel = true;
+        clearInterval(this.interval);
       },
 
       async setUserHighscore(): Promise<any> {
@@ -311,21 +326,6 @@
         }
       },
 
-      // Set highscore and show NextLevel.vue
-      gameEnd(timeIsOut: boolean): void {
-        console.log("Session ended.");
-
-        if (!this.user.hasOwnProperty('id')) {
-          this.setLocalStorageHighscore();
-          console.log("inte loggad")
-        } else {
-          this.setUserHighscore();
-        }
-        if (timeIsOut) this.gameFailed = true;
-        this.nextLevel = true;
-        clearInterval(this.interval);
-      },
-
       // Function run from NextLevel.vue
       setNextLevel(latestPoints: any) {
         this.nextLevel = false;
@@ -350,10 +350,10 @@
 
     // Mounted lifecycle hook because we need to wait for DOM render
     mounted(): void {
-      // Increase pace by 110ms on making letter active based on level
+      // Increase pace on making letter active based on level
       this.interval = setInterval(() => { this.makeActive(); },
-        2000 - (this.level * 80)
-      );
+          1500 - (300 * Math.log( this.level / 2 ))
+        );
     },
 
     beforeDestroy() {

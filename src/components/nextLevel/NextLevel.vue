@@ -14,7 +14,7 @@
     props: ["gameFailed", "points"],
     methods: {
       homeScreen() {
-        this.$router.push({ path: '/' })
+        this.$router.push({ path: '/customization-menu' })
       },
       nextLevel() {
         this.$emit("next-level", this.points);
