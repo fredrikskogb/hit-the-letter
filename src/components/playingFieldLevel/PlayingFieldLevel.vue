@@ -263,6 +263,7 @@
             this.gameFailed = false;
             this.nextLevel = true;
             clearInterval(this.interval);
+            window.removeEventListener("keydown", this.handleKeypress);
           }
         } else {
           if(this.inventory.hearts > 0) {
@@ -333,9 +334,12 @@
         this.points = latestPoints;
         this.initLetters();
         this.requiredHits = this.requiredHits + this.level - 1;
+
         this.interval = setInterval(() => { this.makeActive(); },
           1500 - (300 * Math.log( this.level / 2 ))
         );
+
+        window.addEventListener("keydown", this.handleKeypress);
       },
     },
 
