@@ -58,7 +58,7 @@
 		background-color: rgb(36, 36, 36);
 		background-image: url('../../assets/images/stars.png');
 		background-repeat: no-repeat;
-		background-size: 100% 100%;
+		background-size: 100% auto;
 	}
 
 	.moon-image {
@@ -147,7 +147,7 @@
 		left: 50%;
 		right: 50%;
 		transform: translate(-50%, -50%);
-		box-shadow: 0px 4px 30px 0px rgba(255, 255, 255, 0.85), inset 0px 23px 89px 18px rgba(255, 255, 255, 0.247);
+		box-shadow: 0px 4px 20px 0px rgba(255, 255, 255, 0.85), inset 0px 23px 89px 18px rgba(255, 255, 255, 0.247);
 		background-image: url("../../assets/images/ground.jpg");
 		background-size: 100vw 70%;
 		background-position: center;
