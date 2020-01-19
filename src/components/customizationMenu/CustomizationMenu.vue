@@ -57,6 +57,15 @@
       justify-content: space-between;
     }
 
+    @media (min-width: 268px) and (max-width: 768px) {
+      .selection-container {
+        flex-direction: column;
+        a, div {
+          margin: 0 auto;
+        }
+      }
+    }
+
     .play-button, .change-ship, .change-layout {
     .card;
       display: flex;
