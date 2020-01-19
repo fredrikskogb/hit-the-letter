@@ -56,6 +56,14 @@ export default Vue.extend ({
 <style lang="less">
 
   @import url('../styles/main.less');
+
+  @media (min-width: 268px) and (max-width: 768px) {
+    article {
+      flex-direction: column;
+      margin-top: 40px;
+    }
+  }
+
   article {
 
     display: flex;

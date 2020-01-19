@@ -187,6 +187,12 @@ export default Vue.extend({
 
 	@import url('../../styles/main.less');
 
+	@media (min-width: 268px) and (max-width: 768px) {
+		div.login_register_form {
+			min-width: 0;
+		}
+	}
+
 	input[type=text], input[type=email], button {
 		font-family: 'Tomorrow', sans-serif;
 		font-weight: bold; 
@@ -208,6 +214,7 @@ export default Vue.extend({
 				font-style: italic;
 				font-size: 0.9em;
 				margin-bottom: 15px;
+				cursor: initial;
 			}
 			p {
 				cursor: pointer;
@@ -228,7 +235,7 @@ export default Vue.extend({
 		border-color: salmon;
 	}
 
-	.login_register_form{
+	.login_register_form {
     display: flex;
     flex-direction: column;
     padding-bottom: 1.25rem;
@@ -239,7 +246,7 @@ export default Vue.extend({
 	.login_register_form label {
 		margin-bottom: 5px;
 	}
-  .login_register_form input{
+  .login_register_form input {
     border: 1px solid #eee;
     border: 3px solid;
     border-radius: 5px;
@@ -286,7 +293,7 @@ export default Vue.extend({
 			font-size: 1em;
 	}
 
-	.login_register_submit:hover{
+	.login_register_submit:hover {
 			text-shadow: 0 0 2em rgba(255,255,255,1);
 			border-color: palegreen;
 			background-color: rgba(212, 252, 212, 0.281);
