@@ -52,13 +52,24 @@
 @import url('../../styles/main.less');
 
 .logged-in-container {
+
     position: absolute;
     top: 5px;
     right: 5px;
     .text-styling;
-    .sign-out {
-      margin-top: 10px;
-      cursor: pointer;
+
+    div {
+
+      .sign-out {
+        margin-top: 10px;
+        cursor: pointer;
+      }
+
+      .highscore-title {
+        margin-bottom: 10px;
+        text-decoration: underline;
+      }
+
     }
   }
 </style>
