@@ -12,7 +12,7 @@
 
             <p class="highscore-title">Highscore</p>
             <p>Points: {{this.localStoragePoints}}</p>
-            <p>level: {{this.localStorageLevel}}</p>
+            <p>Level: {{this.localStorageLevel}}</p>
 
         </div>
 
