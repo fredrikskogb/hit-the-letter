@@ -1,10 +1,7 @@
 <template>
   <div class="home">
     <Nav></Nav>
-    <div class="logged-in-name" v-if="user.id">
-      <p>Logged in as {{ user.username }}</p>
-      <p class="sign-out" @click="signOut">Sign out</p>
-    </div>
+    <LoggedIn></LoggedIn>
     <LoginRegister v-if="!user.id" />
   </div>
 </template>
@@ -14,8 +11,8 @@
 import Vue from 'vue'
 import LoginRegister from '@/components/loginRegister/LoginRegister.vue';
 import Nav from '@/components/layout/Nav.vue';
-import { IUser } from '@/types/index.ts';
-import { mapGetters, mapActions } from 'vuex';
+import LoggedIn from "@/components/loggedIn/LoggedIn.vue";
+import { mapGetters } from 'vuex';
 
 export default Vue.extend ({
 
@@ -23,7 +20,9 @@ export default Vue.extend ({
 
   data() {
     return {
-      // mock printing a user
+      loggedIn: false,
+      localStorageLevel: "",
+      localStoragePoints: ""
     }
   }, 
 
@@ -31,19 +30,10 @@ export default Vue.extend ({
 
   components: {
     LoginRegister,
-    Nav
+    Nav,
+    LoggedIn
   },
 
-  methods: {
-    ...mapActions(["resetUserState"]),
-    signOut() {
-      this.resetUserState();
-    }
-  },
-
-  created(): void {
-    
-  }
 })
 
 </script>
@@ -52,15 +42,24 @@ export default Vue.extend ({
 
   @import url('../styles/main.less');
 
-  .logged-in-name {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    .text-styling;
-    .sign-out {
-      margin-top: 10px;
-      cursor: pointer;
+  .home {
+
+    .highscore-title {
+      text-decoration: underline;
+      margin-bottom: 5px;
     }
+
+    .logged-in-container {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      .text-styling;
+      .sign-out {
+        margin-top: 10px;
+        cursor: pointer;
+      }
+    }
+
   }
 
 </style>>
