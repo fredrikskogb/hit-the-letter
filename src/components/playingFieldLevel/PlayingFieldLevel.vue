@@ -9,7 +9,7 @@
         :key="Object.keys(letter)[0]" 
         :class="{
           active: isActive(letter),
-          correct: isCorrect(letter),
+          correct: correctHit,
           bombed: isBombed(letter)
         }"
         :ref=letter
@@ -190,12 +190,6 @@
         return letter[Object.keys(letter)[0]].active;
       },
 
-      isCorrect(letter: any): boolean {
-        if (this.correctHit) {
-          return true;
-        }
-        return false;
-      },
       correctHitCheck() {
         this.correctHitAnimation = true;
 
