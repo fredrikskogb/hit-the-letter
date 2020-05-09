@@ -69,6 +69,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import firebase from 'firebase';
 import { mapGetters, mapActions } from 'vuex';
 
 export default Vue.extend({
@@ -132,52 +133,63 @@ export default Vue.extend({
 			}
 		},
 
-		async signUp(event: Event) {
-			event.stopPropagation();
-			if(this.verifySignup()) {
-				const response = await this.registerUser(this.formData);
-				if (response.message) {
-					this.errors.push(response.message);
-				}
-				this.addHighscore({userId: this.user.id, points: 0, level: 0});
-			}
-			if(this.user.hasOwnProperty('id')) this.$router.push({ path: '/customization-menu' });
-		},
-
-		verifySignup(): boolean {
-			this.errors = [];
-			if (this.formData.email === "") {
-				this.errors.push("Email field is empty!");
-			} else if (this.formData.email.includes("@") === false) {
-				this.errors.push("Not a valid email address.");
-			}
-
-			if (this.formData.username === "") {
-				this.errors.push("Username field is empty!");
-			} else if (this.formData.username.length <= 2) {
-				this.errors.push("Username must be 3 characters or more!");
-			}
-
-			if (this.formData.password === "") {
-				this.errors.push("Password field is empty");
-			} else {
-				if (this.formData.password.length <= 5) {
-					this.errors.push("Password must be 6 characters or more");
-				}
-				const format = /^(?=.{6,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
-				if (!format.test(this.formData.password)) {
-					this.errors.push(
-						"Password must contain one capital letter, one small letter and one number"
-					);
-				}
-			}
-
-			if(!this.errors[0]) {
-				return true;
-			} else {
-				return false;
-			}
+		signUp() {
+			firebase.auth().createUserWithEmailAndPassword(this.formData.email, this.formData.password)
+				.then(
+					function(user) {
+						alert("Your account has been created!");
+					},
+					function(err) {
+						alert("Oops. " + err.message)
+					}
+			);
 		}
+		// async signUp(event: Event) {
+		// 	event.stopPropagation();
+		// 	if(this.verifySignup()) {
+		// 		const response = await this.registerUser(this.formData);
+		// 		if (response.message) {
+		// 			this.errors.push(response.message);
+		// 		}
+		// 		this.addHighscore({userId: this.user.id, points: 0, level: 0});
+		// 	}
+		// 	if(this.user.hasOwnProperty('id')) this.$router.push({ path: '/customization-menu' });
+		// },
+
+		// verifySignup(): boolean {
+		// 	this.errors = [];
+		// 	if (this.formData.email === "") {
+		// 		this.errors.push("Email field is empty!");
+		// 	} else if (this.formData.email.includes("@") === false) {
+		// 		this.errors.push("Not a valid email address.");
+		// 	}
+
+		// 	if (this.formData.username === "") {
+		// 		this.errors.push("Username field is empty!");
+		// 	} else if (this.formData.username.length <= 2) {
+		// 		this.errors.push("Username must be 3 characters or more!");
+		// 	}
+
+		// 	if (this.formData.password === "") {
+		// 		this.errors.push("Password field is empty");
+		// 	} else {
+		// 		if (this.formData.password.length <= 5) {
+		// 			this.errors.push("Password must be 6 characters or more");
+		// 		}
+		// 		const format = /^(?=.{6,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
+		// 		if (!format.test(this.formData.password)) {
+		// 			this.errors.push(
+		// 				"Password must contain one capital letter, one small letter and one number"
+		// 			);
+		// 		}
+		// 	}
+
+		// 	if(!this.errors[0]) {
+		// 		return true;
+		// 	} else {
+		// 		return false;
+		// 	}
+		// }
 	}
 })
 

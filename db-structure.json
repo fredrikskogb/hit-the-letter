@@ -1,0 +1,19 @@
+{ 
+  "db": {
+    "users": {
+      "[id]": {
+        "email": "test@gmail.com",
+        "username": "test",
+        "highscore": 0
+      },
+      "[id2]": {
+        "email": "test2@gmail.com",
+        "username": "yayatest2",
+        "highscore": {
+          "level": 1,
+          "points": 22
+        }
+      }
+    }
+  }
+}
