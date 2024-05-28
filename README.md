@@ -1,10 +1,11 @@
 # hit-the-letter
+node v16 needed to install all packages and run the app.
 
 If you want to use the backend for checking your position on the leaderboard go to https://github.com/fredrikskogb/hit-the-letter-backend
 
 ## Project setup
 ```
-npm install
+npm ci
 ```
 
 ### Compiles and hot-reloads for development
