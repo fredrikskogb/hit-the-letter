@@ -1,6 +1,5 @@
 import { IUser, IUserSecure } from '@/types/index';
 import axios from 'axios';
-import CONFIG_URL from '../../../config-url';
 
 // Used for sending values to distant components without having to use props and emits
 const state = {
@@ -27,13 +26,13 @@ const getters = {
 
 const actions = {
     async loginUser({commit} : {commit: any}, user: any) {
-        const response = await axios.get(`${CONFIG_URL}/user/login.php?username=${user.username}&password=${user.password}`);
+        const response = await axios.get(`${process.env.CONFIG_URL}/user/login.php?username=${user.username}&password=${user.password}`);
         commit('setUser', response.data);
         return response.data;
     },
     
     async registerUser({commit} : {commit: any}, user: any){
-      const response = await axios.post(`${CONFIG_URL}/user/register.php/`, user);
+      const response = await axios.post(`${process.env.CONFIG_URL}/user/register.php/`, user);
       commit('setUser', response.data);
       return response.data;
   },

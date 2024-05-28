@@ -1,5 +1,4 @@
 import axios from 'axios';
-import CONFIG_URL from "../../../config-url";
 
 const state = {
     userHighscore: {}
@@ -11,15 +10,15 @@ const getters = {
 
 const actions = {
     async fetchHighscore({commit} : {commit: any}, userId: any) {
-        const response = await axios.get(`${CONFIG_URL}/highscore/getHighscore.php?userId=${userId}`);
+        const response = await axios.get(`${process.env.CONFIG_URL}/highscore/getHighscore.php?userId=${userId}`);
         commit('setHighscore', response.data);
     },
     async updateHighscore({commit} : {commit: any}, userHighscore: any){
-        const response = await axios.post(`${CONFIG_URL}/highscore/updateHighscore.php/`, userHighscore);
+        const response = await axios.post(`${process.env.CONFIG_URL}/highscore/updateHighscore.php/`, userHighscore);
         commit('setHighscore', response.data);
     },
     async addHighscore({commit} : {commit: any}, userHighscore: any){
-      const response = await axios.post(`${CONFIG_URL}/highscore/setHighscore.php/`, userHighscore);
+      const response = await axios.post(`${process.env.CONFIG_URL}/highscore/setHighscore.php/`, userHighscore);
       commit('setHighscore', response.data);
   },
 };
