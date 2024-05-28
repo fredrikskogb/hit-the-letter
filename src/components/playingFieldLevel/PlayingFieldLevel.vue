@@ -9,7 +9,7 @@
         :key="Object.keys(letter)[0]" 
         :class="{
           active: isActive(letter),
-          correct: isCorrect(letter),
+          correct: correctHit,
           bombed: isBombed(letter)
         }"
         :ref=letter
@@ -190,12 +190,6 @@
         return letter[Object.keys(letter)[0]].active;
       },
 
-      isCorrect(letter: any): boolean {
-        if (this.correctHit) {
-          return true;
-        }
-        return false;
-      },
       correctHitCheck() {
         this.correctHitAnimation = true;
 
@@ -278,11 +272,8 @@
       },
       // Set highscore and show NextLevel.vue
       gameEnd(timeIsOut: boolean): void {
-        console.log("Session ended.");
-
         if (!this.user.hasOwnProperty('id')) {
           this.setLocalStorageHighscore();
-          console.log("inte loggad")
         } else {
           this.setUserHighscore();
         }
@@ -294,19 +285,15 @@
       async setUserHighscore(): Promise<any> {
         /* Check highscore values from highscore vuex state and compare to this session.
            Add user id from users vuex state. */
-        console.log(this.singleHighscore);
 
         if (this.singleHighscore.points < this.points) {
           this.updateHighscore({userId: this.user.id, points: this.points, level: this.level});
-          console.log("Updating highscore");
         } else {
-          console.log("Not a new highscore");
           return;
         }
       },
 
       setLocalStorageHighscore(): void {
-        console.log("Not logged in. Comparing highscore...");
         let localStorageLevel = localStorage.getItem("level");
         let localStoragePoints = localStorage.getItem("points");
 
@@ -319,11 +306,8 @@
         }
 
         if (parseInt(localStoragePoints) < this.points) {
-          console.log("Setting new highscore...")
           localStorage.setItem("level", this.level.toString());
           localStorage.setItem("points", this.points.toString());
-        } else {
-          console.log("No new highscore.")
         }
       },
 
