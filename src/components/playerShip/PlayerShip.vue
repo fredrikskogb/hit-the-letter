@@ -1,6 +1,6 @@
 <template>
 <div>
-  <img :src="getShipUrl()" class="ufo-image"/>
+  <img :src="getShipUrl()" class="ufo-image" alt="Player ship"/>
 </div>
 </template>
 
